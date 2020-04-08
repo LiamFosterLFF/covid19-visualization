@@ -12,11 +12,11 @@ const Map = (props) => {
     svg{ 
         stroke: #fff;
         fill: rgb(29, 255, 0);
-        height: 400px;
+        height: 300px;
         position: relative;
         // top: 250px;
         // left: -450px;
-
+        display: inline-block;
         path {
         &:hover {
             fill: rgb(249, 0, 0);
