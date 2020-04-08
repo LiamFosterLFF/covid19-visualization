@@ -16,7 +16,7 @@ const Map = (props) => {
         position: relative;
         // top: 250px;
         // left: -450px;
-        display: inline-block;
+        display: inline;
         path {
         &:hover {
             fill: rgb(249, 0, 0);
