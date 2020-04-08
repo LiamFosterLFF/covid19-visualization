@@ -3,6 +3,7 @@ import componentJsonDictionary from '../topojsons/all-jsons.js'
 
 import styled from 'styled-components'
 import { VectorMap } from '@south-paw/react-vector-maps';
+import countryNameDictionary from '../countryNameDictionary.js';
 
 const Map = (props) => {
 
@@ -28,6 +29,7 @@ const Map = (props) => {
     const onClick = ({ target }) => {
         const id = target.attributes.id.value;
         if (id in componentJsonDictionary) {
+            props.setCountry(countryNameDictionary[id])
             setComponent(<VectorMap {...componentJsonDictionary[id]}/>)
         } else {
             
@@ -35,6 +37,7 @@ const Map = (props) => {
     }
 
     const backClick = () => {
+        props.setCountry("world")
         setComponent(<VectorMap {...componentJsonDictionary["worldLowRes"]} layerProps={{ onClick }} />)
     }
 
