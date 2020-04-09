@@ -1,24 +1,37 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { LineChart, Line } from 'recharts';
+import { AreaChart, Area } from 'recharts';
 
-const TotalChart = ({data}) => {
+const TotalChart = (props) => {
+  let lineData;
+  if (Object.keys(props.data).length !== 0) {
+    lineData = [...props.data.confirmed.graphArray]
     
-    const ChartStyling = styled.div`
-        svg{ 
-            // display: inline;
-            // top: 250px;
-            // left: 850px;
-            }
-        }`;
     
-    return (
-      <ChartStyling>
-        <LineChart width={400} height={400} data={data}>
-          <Line type="monotone" dataKey="confirmed" stroke="#8884d8" />
-        </LineChart>
-      </ChartStyling>
-    )
+    for (let i = 0; i < lineData.length; i++) {
+      lineData[i]["deaths"] = props.data.deaths.graphArray[i].total
+      lineData[i]["recovered"] = props.data.recovered.graphArray[i].total
+    }
+  }
+  
+  
+  const ChartStyling = styled.div`
+      svg{ 
+          // display: inline;
+          // top: 250px;
+          // left: 850px;
+          }
+      }`;
+  
+  return (
+    <ChartStyling>
+      <AreaChart width={400} height={400} data={lineData}>
+        <Area type="monotone" dataKey="total" stroke="#8884d8" fill="#8884d8"/>
+        <Area type="monotone" dataKey="deaths" stroke="#f72e2e" fill="#f72e2e" />
+        <Area type="monotone" dataKey="recovered" stroke="#54ed40" fill="#54ed40" />
+      </AreaChart>
+    </ChartStyling>
+  )
 }
 
 export default TotalChart;

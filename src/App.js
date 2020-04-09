@@ -11,29 +11,28 @@ import * as d3 from 'd3';
 
 const App = () => {
   
-  const [calculatedData, setCalculatedData] = useState([])
+  const [calculatedData, setCalculatedData] = useState({})
   const [country, setCountry] = useState("world")
-  const [countryDataTotal, setCountryDataTotal] = useState([]);
-  const [countryDataDaily, setCountryDataDaily] = useState([]);
+  const [countryData, setCountryData] = useState({});
+  const [dataType, setDataType] = useState("confirmed")
 
-
-
-  const calculateStatistics = (data) => {
+  const calculateStatistics = (data, dataType, returnObj) => {
     // Get a list of all unique country namds
     const countryNameList = [];
     data.forEach((country) => {
       if ((country["Country/Region"] !== "") && !(countryNameList.includes(country["Country/Region"]))) {
-        countryNameList.push(country["Country/Region"])
+        countryNameList.push(country["Country/Region"].toLowerCase())
       }
     })
 
+    const mostRecentDateStr = "4/7/20" // Fix this programattically (with regex?) later
     
-    // Cycle through list of countries and build an object containing all of them, arranged by name
-    const allCountriesTotalData = {};
-    let globalTotalInfected = 0; // Count a global total while cycling through countries
-    const worldTimeSeries = {};
+
+    const worldTimeSeries = {}; // Creata a time series object for all the countries combined into one
+    // Also create objects containing the totals and most recent daily increase
+    const worldStatistics = {};
     countryNameList.forEach((country) => {
-      const countryData = data.filter((obj) => obj["Country/Region"] === country)
+      const countryData = data.filter((obj) => obj["Country/Region"].toLowerCase() === country)
       
       // Combine the data for all provinces for given Country
       const timeSeries = {};
@@ -48,7 +47,7 @@ const App = () => {
         // Push totals to an object to be used in drawing the graph
         const graphArray = []; 
         for (let [key, value] of Object.entries(timeSeries)) {
-            const dateKey = {country: country, date: key, confirmed: value };
+            const dateKey = {country: country, date: key, total: value };
             graphArray.push(dateKey);
 
             // Take this opportunity to also add up the daily totals for the whole world
@@ -57,61 +56,95 @@ const App = () => {
 
         // Calculate rise per day by subtracting each new date from previous in graph array
         for (let i = 1; i < graphArray.length; i++) {
-          graphArray[i]["increase"] = graphArray[i].confirmed - graphArray[i - 1].confirmed     
+          graphArray[i]["increase"] = graphArray[i].total - graphArray[i - 1].total     
         }
+ 
+        // Set statistics for that country
+        const total = timeSeries[mostRecentDateStr];
+        
+        worldStatistics[country] = {};
+        worldStatistics[country]["total"] = total;
+        worldStatistics[country]["increase"] = graphArray[graphArray.length - 1]["increase"];
 
-        // Total infected for the most recent date
-        const mostRecentDateStr = "4/7/20"
-        const totalInfected = timeSeries[mostRecentDateStr]
-        globalTotalInfected += totalInfected // Add national total to global total
-
-        // Push to total object
-        allCountriesTotalData[country.toLowerCase()] = { timeSeries, graphArray, totalInfected}
+        // Push to returned object, with update for that specific data type
+        returnObj[country] = (returnObj[country]) ? returnObj[country] : {};
+        returnObj[country][dataType] = { timeSeries, graphArray, total}
         
     })
-    console.log(worldTimeSeries);
     
+
     // Push totals to an object to be used in drawing the graph for whole world
     const worldGraphArray = []; 
     for (let [key, value] of Object.entries(worldTimeSeries)) {
-        const dateKey = {country: country, date: key, confirmed: value };
+        const dateKey = {country: country, date: key, total: value };
         worldGraphArray.push(dateKey);
     }
 
     // Calculate rise per day for whole world by subtracting each new date from previous in graph array
     for (let i = 1; i < worldGraphArray.length; i++) {
-      worldGraphArray[i]["increase"] = worldGraphArray[i].confirmed - worldGraphArray[i - 1].confirmed     
+      worldGraphArray[i]["increase"] = worldGraphArray[i].total - worldGraphArray[i - 1].total     
     }
 
-    allCountriesTotalData["world"] = {timeSeries: worldTimeSeries, graphArray: worldGraphArray, totalInfected: globalTotalInfected}
+    // Set statistics for entire world
+    const worldTotal = worldTimeSeries[mostRecentDateStr];
+    worldStatistics["world"] = {};
+    worldStatistics["world"]["total"] = worldTotal;
+    worldStatistics["world"]["increase"] = worldGraphArray[worldGraphArray.length - 1]["increase"];
+    worldStatistics["world"]["provinces"] = worldStatistics;
 
-    return allCountriesTotalData
+    // Push totals for whole world to world property of returned object
+    returnObj["world"] = (returnObj["world"]) ? returnObj["world"] : {};
+    returnObj["world"][dataType] = { 'timeSeries': worldTimeSeries, 'graphArray': worldGraphArray, "statistics" : worldStatistics }
+
+    return returnObj
   }
+
+  const setSingularDataType = async (dataType, returnObj) => { // Sets one data type at a time, saves on copy/paste
+    const data = await d3.csv(`https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_${dataType}_global.csv`)
+    
+    return calculateStatistics(data, dataType, returnObj);
+
+  }
+
+  const setAllData = async () => { // Sets all 3 data types
+    const calculatedDataCopy = {}; 
+    await Promise.all(
+      [ setSingularDataType("confirmed", calculatedDataCopy),
+      setSingularDataType("deaths", calculatedDataCopy),
+      setSingularDataType("recovered", calculatedDataCopy)]
+    )
+    
+    return calculatedDataCopy
+
+  } 
 
 
   useEffect(() => {
+    setAllData().then((data => setCalculatedData(data)))
 
-    d3.csv('https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_recovered_global.csv')
-      .then((data) =>  {
-        setCalculatedData(calculateStatistics(data))
-
-      })
   }, [])
 
 
+
+
   useEffect(() => {
-    if (calculatedData[country] !== undefined) {
-      console.log(calculatedData[country], country);
-      setCountryDataTotal(calculatedData[country].graphArray);
-      setCountryDataDaily(calculatedData[country].graphArray);
+    if (calculatedData[country]) {
+      
+      setCountryData(calculatedData[country]);
+
     }
   }, [calculatedData, country])
 
   return (
     <div className="App">
-      <Map setCountry={setCountry} />
-      <TotalChart data={countryDataTotal} /> 
-      <DailyChart data={countryDataDaily} /> 
+      <div className="chart">
+        <button onClick={() => setDataType("confirmed")} className="confirmed">Confirmed</button>
+        <button onClick={() => setDataType("deaths")} className="deaths">Deaths</button>
+        <button onClick={() => setDataType("recovered")} className="recovered">Recovered</button>
+      </div>
+      <Map setCountry={setCountry} data={countryData} dataType={dataType}/>
+      <TotalChart data={countryData}/> 
+      <DailyChart data={countryData} dataType={dataType}/> 
     </div>
   );
 }
