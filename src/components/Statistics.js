@@ -22,7 +22,7 @@ const Statistics = ({ handleClick, data }) => {
     }
 
     return (
-        <Grid.Row columns="centered" divided>
+        <Grid columns="centered" divided>
             {Object.entries(statistics).map(([statName, statValue]) => {
                     const statNameCapitalized = statName.charAt(0).toUpperCase() + statName.slice(1);
                     const statValueWithCommas = statValue.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
@@ -40,7 +40,7 @@ const Statistics = ({ handleClick, data }) => {
 
                     )
                 })}
-        </Grid.Row>
+        </Grid>
     )
 }
 

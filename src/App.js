@@ -97,14 +97,12 @@ const App = () => {
 
   return (
     <div className="App">
-      <Grid stackable>
         <Statistics data={countryData} handleClick={setDataType}/>
-        <Grid.Row stackable columns={2}>
+      <Grid stackable columns={2}>
         {/* <div className="map-and-charts"> */}
           <Map setCountry={setCountry} country={country} data={countryData}/>
           <Charts data={countryData} dataType={dataType}/> 
         {/* </div> */}
-        </Grid.Row>
       </Grid>
 
     </div>
