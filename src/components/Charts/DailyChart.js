@@ -6,13 +6,19 @@ import YAxis from 'recharts/lib/cartesian/YAxis';
 
 const DailyChart = ({ data, dataType }) => {
   const [ chartData, setChartData ]  = useState({});
-
+  console.log(data, chartData);
   const calculateDailyIncrease = (data) => {
-    // Calculates the change between totals each day
     const dailyIncrease = [];
-    for (let i = 1; i < data.length; i++) {
-      const increase = Number.parseInt(data[i].total) - Number.parseInt(data[i-1].total);
-      dailyIncrease.push({"date": data[i].date, "increase": increase})
+    if (data.length > 0) {
+      // Calculates the change between totals each day
+      // First one starts from 0 so just push the total
+      dailyIncrease.push({"date": data[0].date, "increase": Number.parseInt(data[0].total)})
+      for (let i = 1; i < data.length; i++) {
+        const increase = Number.parseInt(data[i].total) - Number.parseInt(data[i-1].total);
+        if (increase > 0) {
+          dailyIncrease.push({"date": data[i].date, "increase": increase})
+        }
+      }
     }
     return dailyIncrease
   }
@@ -21,7 +27,7 @@ const DailyChart = ({ data, dataType }) => {
     if (Object.keys(data).length !== 0) {
       setChartData(calculateDailyIncrease(data[dataType]));
     }
-  }, [data])
+  }, [data, dataType])
 
   const handleTickFormat = (number) => {
     if (number > 1000000) {
@@ -57,6 +63,7 @@ const DailyChart = ({ data, dataType }) => {
           <XAxis dataKey="date" />
           <YAxis 
             tickFormatter={(tick) => handleTickFormat(tick)}
+            label={{ value: yAxisDict[dataType], offset: 15, angle: -90, position: 'insideBottomLeft' }}
           />
           <Bar barSize={10} dataKey="increase" fill="#8884d8" />
         </BarChart>
