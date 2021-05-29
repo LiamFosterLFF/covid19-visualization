@@ -407,12 +407,11 @@ const App = () => {
           Object.entries(data.rawData).forEach(([dataType, dataSet]) => {
             countryData[dataType] = dataSet.filter((obj) => obj["Country/Region"].toLowerCase() === country)
           })
-          console.log(countryData);
           return createCountryTimeSeries(countryData)
         }
       })
     }
-  }, [data])
+  }, [data, country])
 
   // const [totalTitles, setTotalTitles] = useState({ confirmed: "Confirmed", deaths: "Deaths", recovered: "Recovered"})
 

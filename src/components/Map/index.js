@@ -55,7 +55,22 @@ const Map = (props) => {
             setProvinceColors(newProvinceColors)
         }
     }, [mapStats])
+
+    const onClick = ({ target }) => {
+        const id = target.attributes.id.value;
+        if (id in componentJsonDictionary) {
+            props.setCountry(countryNameDictionary[id])
+            setMap(componentJsonDictionary[id])
+        } else {
+            
+        }
+    }
     
+    const backClick = () => {
+        props.setCountry("world")
+        setMap(componentJsonDictionary["worldLowRes"])
+    }
+
     const MapStyling = styled.div`
     path {
         ${provinceColors}
@@ -73,21 +88,6 @@ const Map = (props) => {
 
         
     }`;
-
-    const onClick = ({ target }) => {
-        const id = target.attributes.id.value;
-        if (id in componentJsonDictionary) {
-            props.setCountry(countryNameDictionary[id])
-            setMap(componentJsonDictionary[id])
-        } else {
-            
-        }
-    }
-    
-    const backClick = () => {
-        props.setCountry("world")
-        setMap(componentJsonDictionary["worldLowRes"]y)
-    }
 
     return (
         <div>
