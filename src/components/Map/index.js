@@ -5,7 +5,7 @@ import styled from 'styled-components'
 import { VectorMap } from '@south-paw/react-vector-maps';
 import countryNameDictionary from '../../countryNameDictionary.js';
 import Rainbow from 'rainbowvis.js';
-import { Button } from 'semantic-ui-react'
+import { Button, Grid } from 'semantic-ui-react'
 
 const Map = (props) => {
 
@@ -80,24 +80,21 @@ const Map = (props) => {
             cursor: pointer;
         }
     }
-    width: 50%;
-    float: left;
-    svg{ 
+    svg { 
         stroke: #fff;
         fill: grey;
         margin: 0% 5% ;
-
-        
-    }`;
+    }
+`;
 
     return (
-        <div>
+        <Grid.Column width={8}>
             <MapStyling>
                 {(props.country === "world") ? <div></div> : <Button onClick={backClick}>World Map</Button>}
                 <VectorMap {...map} layerProps={{ onClick }} />
             </MapStyling>
 
-        </div>
+        </Grid.Column>
     )
 }
 

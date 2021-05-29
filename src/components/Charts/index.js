@@ -3,6 +3,8 @@ import React, { useState, useEffect } from 'react';
 import TotalChart from "./TotalChart";
 import DailyChart from "./DailyChart";
 
+import { Grid } from 'semantic-ui-react';
+
 const Charts = ({ data, dataType}) => {
 
     const [ graphArrays, setGraphArrays ] = useState({});
@@ -30,11 +32,13 @@ const Charts = ({ data, dataType}) => {
     }, [data])
 
     return (
-        <div className="charts" style = {{ width: "50%", float: "right", textAlign: "right"}}>
+        <Grid.Column className="charts" width={8} >
           <TotalChart data={graphArrays} /> 
           <DailyChart data={graphArrays} dataType={dataType}/> 
-        </div>
+        </Grid.Column>
     )
 }
 
 export default Charts;
+
+// style = {{ width: "50%", float: "right", textAlign: "right"}}

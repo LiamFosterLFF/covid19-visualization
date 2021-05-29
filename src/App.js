@@ -98,21 +98,13 @@ const App = () => {
   return (
     <div className="App">
       <Grid >
-      {/* <Grid.Row> */}
-        {/* <div className="top-bar" > */}
-          <Statistics data={countryData} handleClick={setDataType}/>
+        <Statistics data={countryData} handleClick={setDataType}/>
+        <Grid.Row>
+        {/* <div className="map-and-charts"> */}
+          <Map setCountry={setCountry} country={country} data={countryData}/>
+          <Charts data={countryData} dataType={dataType}/> 
         {/* </div> */}
-      {/* </Grid.Row> */}
-      <Grid.Row>
-      <div className="map-and-charts">
-        <Grid.Column>
-        <Map setCountry={setCountry} country={country} data={countryData}/>
-        </Grid.Column>
-        <Grid.Column>
-        <Charts data={countryData} dataType={dataType}/> 
-        </Grid.Column>
-      </div>
-      </Grid.Row>
+        </Grid.Row>
       </Grid>
 
     </div>
