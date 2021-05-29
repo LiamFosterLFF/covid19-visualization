@@ -23,6 +23,16 @@ const DailyChart = ({ data, dataType }) => {
     }
   }, [data])
 
+  const handleTickFormat = (number) => {
+    if (number > 1000000) {
+      return (number/1000000).toString() + 'M';
+    } else if (number > 1000) {
+      return (number/1000).toString() + 'K';
+    } else {
+      return number.toString();
+    }
+  }
+
   const ChartStyling = styled.div`
       svg{ 
           // height: 50%;
@@ -36,7 +46,7 @@ const DailyChart = ({ data, dataType }) => {
     <ChartStyling>
       <BarChart width={600} height={200} data={chartData}>
         <XAxis dataKey="date" />
-        <YAxis />
+        <YAxis tickFormatter={(tick) => handleTickFormat(tick)} />
         <Bar barSize={10} dataKey="increase" fill="#8884d8" />
       </BarChart>
     </ChartStyling>

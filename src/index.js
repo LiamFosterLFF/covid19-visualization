@@ -12,8 +12,6 @@ ReactDOM.render(
 
 // Bugs
 // Axes getting cut off on charts
-// Colors are bad, should be infection as percent of pop
-// Are totals getting calculated right? Above could be total-recovered as %pop
 // Does not work for individual states, obviously kind of a crapshoot there but states should color when clicking country
 // Check if new countries updated
 // Label the things that are represented by map Colors
