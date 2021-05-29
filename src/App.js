@@ -7,7 +7,6 @@ import Charts from "./components/Charts";
 
 import * as d3 from 'd3';
 
-
 const App = () => {
   
   const [ data, setData ] = useState({data: {}, isFetching: true})

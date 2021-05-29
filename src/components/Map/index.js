@@ -5,6 +5,7 @@ import styled from 'styled-components'
 import { VectorMap } from '@south-paw/react-vector-maps';
 import countryNameDictionary from '../../countryNameDictionary.js';
 import Rainbow from 'rainbowvis.js';
+import { Button } from 'semantic-ui-react'
 
 const Map = (props) => {
 
@@ -92,7 +93,7 @@ const Map = (props) => {
     return (
         <div>
             <MapStyling>
-                <button onClick={backClick}>World Map</button>
+                {(props.country === "world") ? <div></div> : <Button onClick={backClick}>World Map</Button>}
                 <VectorMap {...map} layerProps={{ onClick }} />
             </MapStyling>
 
