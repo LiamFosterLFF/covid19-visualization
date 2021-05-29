@@ -97,9 +97,9 @@ const App = () => {
 
   return (
     <div className="App">
-      <Grid >
+      <Grid stackable>
         <Statistics data={countryData} handleClick={setDataType}/>
-        <Grid.Row>
+        <Grid.Row stackable columns={2}>
         {/* <div className="map-and-charts"> */}
           <Map setCountry={setCountry} country={country} data={countryData}/>
           <Charts data={countryData} dataType={dataType}/> 

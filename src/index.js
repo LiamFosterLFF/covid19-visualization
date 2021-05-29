@@ -17,9 +17,7 @@ ReactDOM.render(
 // Add map color legend
 // Add province functionality
 // Fix broken/grey countries
-// Add Semantic UI Grid
-// Semantic UI some sort of flexbox on the top bits
-// Add a responsive container to the charts?
+// Add a breakpoint for charts and map
 // Clean up all warning
 
 // Nice to have
