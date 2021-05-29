@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { AreaChart, Area, XAxis, YAxis, Label } from 'recharts';
 
 const TotalChart = ({ data }) => {
+  
   // Combine all three dataTypes into single items with all three values
   const [ lineData, setLineData ] = useState([])
   useEffect(() => {
@@ -18,7 +19,7 @@ const TotalChart = ({ data }) => {
       setLineData(ld)
     }
   }, [data])
-  
+
   const ChartStyling = styled.div`
       svg{ 
           // height: 50%;

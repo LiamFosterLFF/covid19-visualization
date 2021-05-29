@@ -43,7 +43,7 @@ const Map = (props) => {
 
             // Set a custom color gradient from 0=green to 100=red
             const rainbow = new Rainbow();
-            rainbow.setSpectrum('#2eff00', '#ff0000')
+            rainbow.setSpectrum('#29e229', '#ddd623', '#e72a2a')
 
             Object.entries(mapStats).forEach(([provinceName, provinceStat]) => {
                 const provinceId = countryIdDictionary[provinceName.toLowerCase()];
