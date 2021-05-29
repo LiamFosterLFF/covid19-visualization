@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './App.css';
+import { Grid } from 'semantic-ui-react';
 
 import Statistics from './components/Statistics';
 import Map from "./components/Map";
@@ -96,13 +97,24 @@ const App = () => {
 
   return (
     <div className="App">
-      <div className="top-bar" >
-        <Statistics data={countryData} handleClick={setDataType}/>
-      </div>
+      <Grid >
+      {/* <Grid.Row> */}
+        {/* <div className="top-bar" > */}
+          <Statistics data={countryData} handleClick={setDataType}/>
+        {/* </div> */}
+      {/* </Grid.Row> */}
+      <Grid.Row>
       <div className="map-and-charts">
+        <Grid.Column>
         <Map setCountry={setCountry} country={country} data={countryData}/>
+        </Grid.Column>
+        <Grid.Column>
         <Charts data={countryData} dataType={dataType}/> 
+        </Grid.Column>
       </div>
+      </Grid.Row>
+      </Grid>
+
     </div>
   );
 }

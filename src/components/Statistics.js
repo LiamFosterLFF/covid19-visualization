@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { Grid } from 'semantic-ui-react';
 
 const Statistics = ({ handleClick, data }) => {
 
@@ -15,19 +16,33 @@ const Statistics = ({ handleClick, data }) => {
         setStatistics(stats)
     }, [data])
 
+    const [ hoveredStat, setHoveredStat ] = useState("")
+    const handleHover = (e) => {
+        setHoveredStat(e.target.className.split(" ").slice(-1)[0]);
+    }
+
     return (
-        <ul>
-            {
-                Object.entries(statistics).map(([statName, statValue]) => {
+        <Grid.Row columns="centered" divided>
+            {/* <Grid.Column/> */}
+            {Object.entries(statistics).map(([statName, statValue]) => {
                     const statNameCapitalized = statName.charAt(0).toUpperCase() + statName.slice(1);
                     const statValueWithCommas = statValue.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
                     return (
-                        <li onClick={() => handleClick(statName)} className={statName}>{`${statNameCapitalized}: ${statValueWithCommas}`}</li>
+                        <Grid.Column 
+                            width={3} 
+                            className={statName}
+                            onClick={() => handleClick(statName)} 
+                            onMouseEnter={(e) => handleHover(e)}
+                            onMouseLeave={() => setHoveredStat("")}
+                            style={{"font-size": (hoveredStat === statName) ? "large": "medium"}}
+                        >
+                            {`${statNameCapitalized}: ${statValueWithCommas}`}
+                        </Grid.Column>
 
                     )
-                })
-            }
-        </ul>
+                })}
+            {/* <Grid.Column/> */}
+        </Grid.Row>
     )
 }
 

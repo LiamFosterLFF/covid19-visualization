@@ -13,16 +13,13 @@ ReactDOM.render(
 
 
 // Bugs 
-// Chart labels/titles
-// Chart hover lines
-// Chart cartesian grid
-// Does clicking types actually change anything?
 // Probably some explanation of what is happening/can do
+// Add map color legend
 // Add province functionality
 // Fix broken/grey countries
-// Add map color legend
 // Add Semantic UI Grid
 // Semantic UI some sort of flexbox on the top bits
+// Add a responsive container to the charts?
 // Clean up all warning
 
 // Nice to have
