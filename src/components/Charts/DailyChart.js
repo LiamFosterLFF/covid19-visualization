@@ -4,13 +4,24 @@ import { BarChart, Bar } from 'recharts';
 import XAxis from 'recharts/lib/cartesian/XAxis';
 import YAxis from 'recharts/lib/cartesian/YAxis';
 
-const DailyChart = (props) => {
-  let chartData = {};
+const DailyChart = ({ data, dataType }) => {
+  const [ chartData, setChartData ]  = useState({});
 
-  if (Object.keys(props.data).length !== 0) {
-    chartData = props.data[props.dataType].graphArray
+  const calculateDailyIncrease = (data) => {
+    // Calculates the change between totals each day
+    const dailyIncrease = [];
+    for (let i = 1; i < data.length; i++) {
+      const increase = Number.parseInt(data[i].total) - Number.parseInt(data[i-1].total);
+      dailyIncrease.push({"date": data[i].date, "increase": increase})
+    }
+    return dailyIncrease
   }
 
+  useEffect(() => {
+    if (Object.keys(data).length !== 0) {
+      setChartData(calculateDailyIncrease(data[dataType]));
+    }
+  }, [data])
 
   const ChartStyling = styled.div`
       svg{ 
