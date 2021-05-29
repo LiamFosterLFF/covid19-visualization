@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { AreaChart, Area, XAxis, YAxis, Label, CartesianGrid } from 'recharts';
+import { AreaChart, Area, XAxis, YAxis, CartesianGrid , Legend} from 'recharts';
 
 const TotalChart = ({ data }) => {
 
@@ -38,10 +38,9 @@ const TotalChart = ({ data }) => {
     <ChartStyling>
       <AreaChart width={600} height={200} data={lineData}>
         <CartesianGrid strokeDasharray="3 3" />
+        <Legend verticalAlign="top" height={36}/>
         <XAxis dataKey="date" />
-        <YAxis tickFormatter={(tick) => handleTickFormat(tick)}> 
-          <Label value="Pages of my website" offset={0} position="left" />
-        </YAxis>
+        <YAxis tickFormatter={(tick) => handleTickFormat(tick)} /> 
         <Area type="monotone" dataKey="confirmed" stroke="#8884d8" fill="#8884d8"/>
         <Area type="monotone" dataKey="deaths" stroke="#f72e2e" fill="#f72e2e" />
         <Area type="monotone" dataKey="recovered" stroke="#54ed40" fill="#54ed40" />

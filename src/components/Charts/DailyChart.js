@@ -41,16 +41,27 @@ const DailyChart = ({ data, dataType }) => {
           // left: 850px;
           }
       }`;
+
+  const yAxisDict = {
+    "confirmed": "New Confirmed Cases",
+    "recovered": "Daily Recovered",
+    "deaths": "Daily Deceased",
+  }
   
   return (
-    <ChartStyling>
-      <BarChart width={600} height={200} data={chartData}>
-        <CartesianGrid strokeDasharray="3 3" />
-        <XAxis dataKey="date" />
-        <YAxis tickFormatter={(tick) => handleTickFormat(tick)} />
-        <Bar barSize={10} dataKey="increase" fill="#8884d8" />
-      </BarChart>
-    </ChartStyling>
+    <div>
+      {/* <h3>Title</h3> */}
+      <ChartStyling>
+        <BarChart width={600} height={200} data={chartData}>
+          <CartesianGrid strokeDasharray="3 3" />
+          <XAxis dataKey="date" />
+          <YAxis 
+            tickFormatter={(tick) => handleTickFormat(tick)}
+          />
+          <Bar barSize={10} dataKey="increase" fill="#8884d8" />
+        </BarChart>
+      </ChartStyling>
+    </div>
   )
 }
 
