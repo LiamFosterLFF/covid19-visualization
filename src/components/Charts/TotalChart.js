@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { AreaChart, Area, XAxis, YAxis, CartesianGrid , Legend} from 'recharts';
+import { AreaChart, Area, XAxis, YAxis, CartesianGrid , Legend, Tooltip } from 'recharts';
 
 const TotalChart = ({ data }) => {
 
@@ -25,6 +25,10 @@ const TotalChart = ({ data }) => {
     return (number/1000000).toString() + 'M';
   }
 
+  const handleTooltipFormat = (value) => {
+    return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+  }
+
   const ChartStyling = styled.div`
       svg{ 
           // height: 50%;
@@ -38,6 +42,7 @@ const TotalChart = ({ data }) => {
     <ChartStyling>
       <AreaChart width={600} height={200} data={lineData}>
         <CartesianGrid strokeDasharray="3 3" />
+        <Tooltip formatter={(value) => handleTooltipFormat(value)}/>
         <Legend verticalAlign="top" height={36}/>
         <XAxis dataKey="date" />
         <YAxis tickFormatter={(tick) => handleTickFormat(tick)} /> 

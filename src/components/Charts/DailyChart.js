@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { BarChart, Bar, CartesianGrid } from 'recharts';
+import { BarChart, Bar, CartesianGrid, Tooltip } from 'recharts';
 import XAxis from 'recharts/lib/cartesian/XAxis';
 import YAxis from 'recharts/lib/cartesian/YAxis';
 
 const DailyChart = ({ data, dataType }) => {
   const [ chartData, setChartData ]  = useState({});
-  console.log(data, chartData);
   const calculateDailyIncrease = (data) => {
     const dailyIncrease = [];
     if (data.length > 0) {
@@ -39,6 +38,10 @@ const DailyChart = ({ data, dataType }) => {
     }
   }
 
+  const handleTooltipFormat = (value) => {
+    return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+  }
+
   const ChartStyling = styled.div`
       svg{ 
           // height: 50%;
@@ -60,6 +63,7 @@ const DailyChart = ({ data, dataType }) => {
       <ChartStyling>
         <BarChart width={600} height={200} data={chartData}>
           <CartesianGrid strokeDasharray="3 3" />
+          <Tooltip formatter={(value) => handleTooltipFormat(value)}/>
           <XAxis dataKey="date" />
           <YAxis 
             tickFormatter={(tick) => handleTickFormat(tick)}
