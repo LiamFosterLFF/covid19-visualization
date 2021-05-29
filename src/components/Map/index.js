@@ -76,7 +76,7 @@ const Map = (props) => {
     path {
         ${provinceColors}
         &:hover {
-            fill: rgb(249, 0, 0);
+            opacity: 0.5;
             cursor: pointer;
         }
     }
