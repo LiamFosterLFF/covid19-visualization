@@ -5,6 +5,8 @@ import DailyChart from "./DailyChart";
 
 const Charts = ({ data, dataType}) => {
 
+    const [ graphArrays, setGraphArrays ] = useState({});
+
     const createGraphArrays = (countryData) => {
         // Combine the data for all provinces for given country, and produces an object the graphs can work with
         const graphArrays = {"confirmed": [], "recovered": [], "deaths": []};
@@ -23,31 +25,6 @@ const Charts = ({ data, dataType}) => {
         return graphArrays;
     }
 
-    //     const createGraphArray = (timeSeries) => {
-    //         console.log(timeSeries);
-    //         // Calculate total for all countries to an object to be used in drawing the graph
-    //         const graphArray = {"confirmed": [], "recovered": [], "deaths": []}; 
-    //         Object.entries(timeSeries).forEach(([dataType, dataSet]) => {
-    //             Object.entries(dataSet).forEach(([date, total]) => {
-    //                 const graphArrayObject = { date: date, total: total };
-    //                 graphArrays[dataType].push(graphArrayObject);
-
-
-    //             })
-    //         })
-    //         return graphArray;
-    //     }
-        
-
-    //         const timeSeries = mergeTimeSeries(data);
-    //         graphArrays[dataType] = createGraphArray(timeSeries)
-
-    //     return graphArrays;
-    // }
-
-
-
-    const [ graphArrays, setGraphArrays ] = useState({});
     useEffect(() => {
         setGraphArrays(createGraphArrays(data))
     }, [data])

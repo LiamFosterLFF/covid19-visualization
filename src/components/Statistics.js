@@ -27,9 +27,6 @@ const Statistics = ({ handleClick, data }) => {
                     )
                 })
             }
-          {/* <li onClick={() => handleClick("confirmed")} className="confirmed">{`Confirmed: ${data.confirmed[country]}`}</li>
-          <li onClick={() => handleClick("deaths")} className="deaths">{`Deaths: ${data.deaths[country]}`}</li>
-          <li onClick={() => handleClick("recovered")} className="recovered">{`Recovered: ${data.recovered[country]}`}</li> */}
         </ul>
     )
 }
