@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { BarChart, Bar } from 'recharts';
+import { BarChart, Bar, CartesianGrid } from 'recharts';
 import XAxis from 'recharts/lib/cartesian/XAxis';
 import YAxis from 'recharts/lib/cartesian/YAxis';
 
@@ -45,6 +45,7 @@ const DailyChart = ({ data, dataType }) => {
   return (
     <ChartStyling>
       <BarChart width={600} height={200} data={chartData}>
+        <CartesianGrid strokeDasharray="3 3" />
         <XAxis dataKey="date" />
         <YAxis tickFormatter={(tick) => handleTickFormat(tick)} />
         <Bar barSize={10} dataKey="increase" fill="#8884d8" />

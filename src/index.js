@@ -13,18 +13,20 @@ ReactDOM.render(
 
 
 // Bugs 
-// No label on charts
-// Does not work for individual states, obviously kind of a crapshoot there but states should color when clicking country
-// Check if new countries updated
-// Label the things that are represented by map Colors
-// World map button should disappear
-// CLean up layout with bootstrap
-// Have things pop up on maps when hovering
-// Responsivity with the design/resizing
+// Chart labels/titles
+// Chart hover lines
+// Chart cartesian grid
+// Does clicking types actually change anything?
+// Probably some explanation of what is happening/can do
+// Add province functionality
+// Fix broken/grey countries
+// Add map color legend
+// Add Semantic UI Grid
+// Semantic UI some sort of flexbox on the top bits
 // Clean up all warning
 
 // Nice to have
-// Some way of scrolling back through the data
-// Make app more performant so its not constantly pinging the server
+// Some way of scrolling back through the data - probably by clicking on chart
+// Make app more performant so its not constantly pinging the server (useMemo)
 // Pull all updating functionality out into a custom useeffect hook (call it useJHAPI or sth)
-//
+// 
