@@ -45,7 +45,10 @@ const TotalChart = ({ data }) => {
         <Tooltip formatter={(value) => handleTooltipFormat(value)}/>
         <Legend verticalAlign="top" height={36}/>
         <XAxis dataKey="date" />
-        <YAxis tickFormatter={(tick) => handleTickFormat(tick)} /> 
+        <YAxis 
+          tickFormatter={(tick) => handleTickFormat(tick)} 
+          label={{ value: "Total Overall Cases", offset: 10, angle: -90, position: 'insideBottomLeft' }}
+        /> 
         <Area type="monotone" dataKey="confirmed" stroke="#8884d8" fill="#8884d8"/>
         <Area type="monotone" dataKey="deaths" stroke="#f72e2e" fill="#f72e2e" />
         <Area type="monotone" dataKey="recovered" stroke="#54ed40" fill="#54ed40" />

@@ -58,21 +58,18 @@ const DailyChart = ({ data, dataType }) => {
   }
   
   return (
-    <div>
-      {/* <h3>Title</h3> */}
-      <ChartStyling>
-        <BarChart width={600} height={200} data={chartData}>
-          <CartesianGrid strokeDasharray="3 3" />
-          <Tooltip formatter={(value) => handleTooltipFormat(value)}/>
-          <XAxis dataKey="date" />
-          <YAxis 
-            tickFormatter={(tick) => handleTickFormat(tick)}
-            label={{ value: yAxisDict[dataType], offset: 15, angle: -90, position: 'insideBottomLeft' }}
-          />
-          <Bar barSize={10} dataKey="increase" fill="#8884d8" />
-        </BarChart>
-      </ChartStyling>
-    </div>
+    <ChartStyling>
+      <BarChart width={600} height={200} data={chartData}>
+        <CartesianGrid strokeDasharray="3 3" />
+        <Tooltip formatter={(value) => handleTooltipFormat(value)}/>
+        <XAxis dataKey="date" />
+        <YAxis 
+          tickFormatter={(tick) => handleTickFormat(tick)}
+          label={{ value: yAxisDict[dataType], offset: 15, angle: -90, position: 'insideBottomLeft' }}
+        />
+        <Bar barSize={10} dataKey="increase" fill="#8884d8" />
+      </BarChart>
+    </ChartStyling>
   )
 }
 
