@@ -15,11 +15,12 @@ const Map = (props) => {
 
     const calculateMapStats = (countryData) => {
         const provinceStats = {};
+        console.log(countryData);
         Object.entries(countryData).forEach(([provinceName, provinceData]) => {
             if (provinceData.confirmed) {
                 const mostRecentTotal = provinceData.confirmed.slice(-1)[0][1];
                 const tenDaysAgoTotal = provinceData.confirmed.slice(-10)[0][1];
-                const numberOfNewInfections = mostRecentTotal - tenDaysAgoTotal
+                const numberOfNewInfections = mostRecentTotal - tenDaysAgoTotal;
                 const rateOfChange = (numberOfNewInfections)/mostRecentTotal;
                 const maxRedValue = 20000;
                 provinceStats[provinceName] = (rateOfChange*numberOfNewInfections)/(maxRedValue/100)
@@ -28,8 +29,42 @@ const Map = (props) => {
         return provinceStats;
     }
 
+    const preprocessData = (countryData) => {
+        // Three countries (aus, can, china) are special cases that do not have nationwide statistics - create these
+        if (props.country === "world") {
+            const specialCaseCountries = ["Australia", "China", "Canada"];
+            specialCaseCountries.forEach((country) => {
+                const nationwideData = {"confirmed": [], "recovered": [], "deaths": []}
+                // Find all the provinces for that country
+                Object.entries(countryData).filter(([provinceName, provinceData]) => {
+                    if (provinceName.split(',')[0] === country) {
+                        // Cycle through datasets and combine them
+                        Object.entries(provinceData).forEach(([dataType, dataSet]) => {
+                            for (let i = 0; i < dataSet.length; i++) {
+                                // Push in item from dataset if no point yet exists, else add totals together
+                                const dataPoint = nationwideData[dataType][i]
+                                if (dataPoint) {
+                                    const newTotal = Number.parseInt(nationwideData[dataType][i][1]) + Number.parseInt(dataSet[i][1]);
+                                    nationwideData[dataType][i][1] = newTotal;
+                                } else {
+                                    nationwideData[dataType].push(dataSet[i])
+                                }
+                            }
+                        })
+                    }
+                })
+                countryData[country] = nationwideData
+                console.log(country, nationwideData, countryData);
+            })
+        }
+
+        return countryData
+    }
+
     useEffect(() => {
-        setMapStats(calculateMapStats(props.data))
+        if (Object.entries(props.data).length > 0) {
+            setMapStats(calculateMapStats(preprocessData(props.data)))
+        }
     }, [props.data])
 
     useEffect(() => {
@@ -91,7 +126,10 @@ const Map = (props) => {
         <Grid.Column width={8}>
             <MapStyling>
                 {(props.country === "world") ? <div></div> : <Button onClick={backClick}>World Map</Button>}
-                <VectorMap {...map} layerProps={{ onClick }} />
+                <VectorMap 
+                    {...map} 
+                    layerProps={{ onClick }} 
+                />
             </MapStyling>
 
         </Grid.Column>

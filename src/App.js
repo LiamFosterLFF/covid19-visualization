@@ -38,6 +38,7 @@ const App = () => {
 
   useEffect(() => {
     getData().then(rawData => {
+      console.log(rawData);
       setData({rawData, isFetching:false})
     })
   }, [])
@@ -74,7 +75,7 @@ const App = () => {
         sortedTimeSeriesArrays[provinceName][dataType] = createSortedTimeSeriesArray(provinceData);
       })
     });
-
+    console.log(sortedTimeSeriesArrays);
     return sortedTimeSeriesArrays;
   }
 
@@ -99,10 +100,8 @@ const App = () => {
     <div className="App">
         <Statistics data={countryData} handleClick={setDataType}/>
       <Grid stackable columns={2}>
-        {/* <div className="map-and-charts"> */}
           <Map setCountry={setCountry} country={country} data={countryData}/>
           <Charts data={countryData} dataType={dataType}/> 
-        {/* </div> */}
       </Grid>
 
     </div>
