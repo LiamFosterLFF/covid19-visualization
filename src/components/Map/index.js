@@ -14,8 +14,8 @@ const Map = (props) => {
     const [ map, setMap ] = useState(componentJsonDictionary["worldLowRes"]);
 
     const calculateMapStats = (countryData) => {
+        console.log("A", countryData);
         const provinceStats = {};
-        console.log(countryData);
         Object.entries(countryData).forEach(([provinceName, provinceData]) => {
             if (provinceData.confirmed) {
                 const mostRecentTotal = provinceData.confirmed.slice(-1)[0][1];
@@ -54,7 +54,6 @@ const Map = (props) => {
                     }
                 })
                 countryData[country] = nationwideData
-                console.log(country, nationwideData, countryData);
             })
         }
 
@@ -128,7 +127,7 @@ const Map = (props) => {
                 {(props.country === "world") ? <div></div> : <Button onClick={backClick}>World Map</Button>}
                 <VectorMap 
                     {...map} 
-                    layerProps={{ onClick }} 
+                    layerProps={{ onClick, onMouseEnter: ({ target }) => console.log(target.attributes.name.value)}}
                 />
             </MapStyling>
 
