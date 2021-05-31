@@ -11,14 +11,15 @@ import * as d3 from 'd3';
 const App = () => {
   
   const [ data, setData ] = useState({data: {}, isFetching: true})
+  const [ USData, setUSData ] = useState({data: {}, isFetching: true})
   const [ country, setCountry ] = useState("world")
   const [ dataType, setDataType ] = useState("confirmed")
   const [ countryData, setCountryData ] = useState({})
 
 
   const getSingularDataType = async (dataType) => { // Sets one data type at a time, saves on copy/paste
-    const rawData = await d3.csv(`https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_${dataType}_global.csv`)
-    
+    let rawData = await d3.csv(`https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_${dataType}_global.csv`)
+
     return { [dataType]: rawData }
   }
 
@@ -82,6 +83,7 @@ const App = () => {
   useEffect(() => {
     // Create countryData, if for world, do for all countries, each country functions as a "province"
     if (!data.isFetching) {
+      console.log(country);
       setCountryData(() => {
         if (country === "world") {
           return createCountryTimeSeries(data.rawData)
@@ -94,7 +96,7 @@ const App = () => {
         }
       })
     }
-  }, [data, country])
+  }, [data, country, USData])
 
   return (
     <div className="App">

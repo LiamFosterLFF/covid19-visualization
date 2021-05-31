@@ -6,6 +6,7 @@ import { VectorMap } from '@south-paw/react-vector-maps';
 import countryNameDictionary from '../../countryNameDictionary.js';
 import Rainbow from 'rainbowvis.js';
 import { Button, Grid } from 'semantic-ui-react'
+import * as d3 from 'd3';
 
 const Map = (props) => {
 
@@ -17,6 +18,7 @@ const Map = (props) => {
         console.log("A", countryData);
         const provinceStats = {};
         Object.entries(countryData).forEach(([provinceName, provinceData]) => {
+            console.log(provinceName);
             if (provinceData.confirmed) {
                 const mostRecentTotal = provinceData.confirmed.slice(-1)[0][1];
                 const tenDaysAgoTotal = provinceData.confirmed.slice(-10)[0][1];
@@ -29,9 +31,43 @@ const Map = (props) => {
         return provinceStats;
     }
 
-    const preprocessData = (countryData) => {
+    const getProcessedUSData = async () => {
+        const getUSData = async () => {
+            const rawData = await d3.csv(`https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_US.csv`)
+            return rawData
+          }
+        
+        const processUSData = (USData) => {
+            console.log("HIT");
+            // Need to clean the data a little bit, the dictionary keys don't match
+            const processedData = {}
+            USData.forEach((localDataSet) => {
+                const stateName = `us, ${localDataSet["Province_State"]}`;
+                const localData = Object.entries(localDataSet).filter(([key, entry]) => {
+                    return !isNaN(key[0]) 
+                })
+                if (processedData[stateName]) {
+                    localData.forEach((dataPoint, index) => {
+                        const newTotal = Number.parseInt(processedData[stateName].confirmed[index][1]) + Number.parseInt(dataPoint[1]);
+                        processedData[stateName].confirmed[index][1] = newTotal;
+                    })
+                } else {
+                    processedData[stateName] = { confirmed: localData };
+                }
+            })
+            console.log(processedData);
+            return processedData
+        }
+        let processedData;
+        await getUSData().then((data) => {
+            processedData = processUSData(data)
+        })
+        return processedData;
+
+    }
+
+    const preprocessProvincialData = (countryData) => {
         // Three countries (aus, can, china) are special cases that do not have nationwide statistics - create these
-        if (props.country === "world") {
             const specialCaseCountries = ["Australia", "China", "Canada"];
             specialCaseCountries.forEach((country) => {
                 const nationwideData = {"confirmed": [], "recovered": [], "deaths": []}
@@ -55,14 +91,22 @@ const Map = (props) => {
                 })
                 countryData[country] = nationwideData
             })
-        }
-
         return countryData
     }
 
     useEffect(() => {
+        console.log(props.country, props.country === "us");
         if (Object.entries(props.data).length > 0) {
-            setMapStats(calculateMapStats(preprocessData(props.data)))
+            if (props.country === "world") {
+                setMapStats(calculateMapStats(preprocessProvincialData(props.data)))
+            } else if (props.country === "us") {
+                // Handle US Data separately, it's a whole different chart and so is only fetched when called here
+                getProcessedUSData().then(rawData => {
+                    setMapStats(calculateMapStats(rawData))
+                })
+            } else {
+                setMapStats(calculateMapStats(props.data))
+            }
         }
     }, [props.data])
 
