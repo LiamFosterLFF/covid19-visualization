@@ -84,7 +84,7 @@ const Map = (props) => {
             specialCaseCountries.forEach((country) => {
                 const nationwideData = {"confirmed": [], "recovered": [], "deaths": []}
                 // Find all the provinces for that country
-                Object.entries(countryData).filter(([provinceName, provinceData]) => {
+                Object.entries(countryData).forEach(([provinceName, provinceData]) => {
                     if (provinceName.split(',')[0] === country) {
                         // Cycle through datasets and combine them
                         Object.entries(provinceData).forEach(([dataType, dataSet]) => {
