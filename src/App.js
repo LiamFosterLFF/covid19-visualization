@@ -11,7 +11,7 @@ import * as d3 from 'd3';
 const App = () => {
   
   const [ data, setData ] = useState({data: {}, isFetching: true})
-  const [ USData, setUSData ] = useState({data: {}, isFetching: true})
+  const [ USData, ] = useState({data: {}, isFetching: true})
   const [ country, setCountry ] = useState("world")
   const [ dataType, setDataType ] = useState("confirmed")
   const [ countryData, setCountryData ] = useState({})
@@ -23,21 +23,23 @@ const App = () => {
     return { [dataType]: rawData }
   }
 
-  const getData = async () => { // Sets all 3 data types
-    let returnObj = {}
-    await Promise.all(
-      [getSingularDataType("confirmed"),
-      getSingularDataType("deaths"),
-      getSingularDataType("recovered")]
-    ).then(dataTypes => {
-      for (let i = 0; i < dataTypes.length; i++) {
-        returnObj = {...returnObj, ...dataTypes[i]}
-      }
-    })
-    return returnObj
-  }
+
 
   useEffect(() => {
+    const getData = async () => { // Sets all 3 data types
+      let returnObj = {}
+      await Promise.all(
+        [getSingularDataType("confirmed"),
+        getSingularDataType("deaths"),
+        getSingularDataType("recovered")]
+      ).then(dataTypes => {
+        for (let i = 0; i < dataTypes.length; i++) {
+          returnObj = {...returnObj, ...dataTypes[i]}
+        }
+      })
+      return returnObj
+    }
+    
     getData().then(rawData => {
       setData({rawData, isFetching:false})
     })

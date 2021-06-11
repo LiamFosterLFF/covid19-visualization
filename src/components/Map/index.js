@@ -119,7 +119,7 @@ const Map = (props) => {
                 setMapStats(calculateMapStats(props.data))
             }
         }
-    }, [props.data])
+    }, [props.data, props.country])
 
     useEffect(() => {
         if (Object.keys(mapStats).length !== 0) {
