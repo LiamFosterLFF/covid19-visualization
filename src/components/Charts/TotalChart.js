@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import styled from 'styled-components';
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid , Legend, Tooltip, ResponsiveContainer } from 'recharts';
-import { Grid } from 'semantic-ui-react';
 
 const TotalChart = ({ data }) => {
 
@@ -30,19 +28,8 @@ const TotalChart = ({ data }) => {
     return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
   }
 
-  const ChartStyling = styled.div`
-      svg{ 
-          // height: 50%;
-          // display: inline;
-          // top: 250px;
-          // left: 850px;
-          }
-      }`;
-  
   return (
-    // <Grid.Row style={{"width": "100%"}} >
       <ResponsiveContainer height="50%">
-      {/* <ChartStyling> */}
         <AreaChart width={600} height={200} data={lineData}>
           <CartesianGrid strokeDasharray="3 3" />
           <Tooltip formatter={(value) => handleTooltipFormat(value)}/>
@@ -57,7 +44,6 @@ const TotalChart = ({ data }) => {
           <Area type="monotone" dataKey="recovered" stroke="#54ed40" fill="#54ed40" />
         </AreaChart>
       </ResponsiveContainer>
-    // </Grid.Row>
   )
 }
 

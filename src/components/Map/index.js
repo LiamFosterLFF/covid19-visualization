@@ -8,6 +8,22 @@ import Rainbow from 'rainbowvis.js';
 import { Button, Grid } from 'semantic-ui-react'
 import * as d3 from 'd3';
 
+const MapStyling = styled.div`
+    path {
+        ${props => props.colors}
+        &:hover {
+            opacity: 0.5;
+            cursor: pointer;
+        }
+    }
+    svg { 
+        stroke: #fff;
+        fill: grey;
+        margin: 0% 5% ;
+    }
+`;
+
+
 const Map = (props) => {
 
     const [ mapStats, setMapStats ] = useState({})
@@ -145,25 +161,12 @@ const Map = (props) => {
         setMap(componentJsonDictionary["worldLowRes"])
     }
 
-    const MapStyling = styled.div`
-    path {
-        ${provinceColors}
-        &:hover {
-            opacity: 0.5;
-            cursor: pointer;
-        }
-    }
-    svg { 
-        stroke: #fff;
-        fill: grey;
-        margin: 0% 5% ;
-    }
-`;
+
 
     return (
         <Grid.Column width={8}>
-            <MapStyling>
-                {(props.country === "world") ? <div></div> : <Button onClick={backClick}>World Map</Button>}
+            <MapStyling colors={provinceColors}>
+            {(props.country === "world") ? <div></div> : <Button onClick={backClick}>World Map</Button>}
                 <VectorMap 
                     {...map} 
                     layerProps={{ onClick }}

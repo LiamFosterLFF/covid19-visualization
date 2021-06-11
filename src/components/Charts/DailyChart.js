@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import styled from 'styled-components';
 import { BarChart, Bar, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 import XAxis from 'recharts/lib/cartesian/XAxis';
 import YAxis from 'recharts/lib/cartesian/YAxis';
-import { Grid } from 'semantic-ui-react';
 
 const DailyChart = ({ data, dataType }) => {
   const [ chartData, setChartData ]  = useState([]);
@@ -43,15 +41,6 @@ const DailyChart = ({ data, dataType }) => {
     return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
   }
 
-  const ChartStyling = styled.div`
-      svg{ 
-          // height: 50%;
-          // display: inlin;
-          // top: 250px;
-          // left: 850px;
-          }
-      }`;
-
   const yAxisDict = {
     "confirmed": "New Confirmed Cases",
     "recovered": "Daily Recovered",
@@ -60,7 +49,6 @@ const DailyChart = ({ data, dataType }) => {
   
   return (
     <ResponsiveContainer height="50%">
-      {/* <ChartStyling> */}
         <BarChart width={600} height={200} data={chartData}>
           <CartesianGrid strokeDasharray="3 3" />
           <Tooltip formatter={(value) => handleTooltipFormat(value)}/>
@@ -71,7 +59,6 @@ const DailyChart = ({ data, dataType }) => {
           />
           <Bar barSize={10} dataKey="increase" fill="#8884d8" />
         </BarChart>
-      {/* </ChartStyling> */}
       </ResponsiveContainer>
 
   )
