@@ -39,7 +39,6 @@ const App = () => {
 
   useEffect(() => {
     getData().then(rawData => {
-      console.log(rawData);
       setData({rawData, isFetching:false})
     })
   }, [])
@@ -76,14 +75,12 @@ const App = () => {
         sortedTimeSeriesArrays[provinceName][dataType] = createSortedTimeSeriesArray(provinceData);
       })
     });
-    console.log(sortedTimeSeriesArrays);
     return sortedTimeSeriesArrays;
   }
 
   useEffect(() => {
     // Create countryData, if for world, do for all countries, each country functions as a "province"
     if (!data.isFetching) {
-      console.log(country);
       setCountryData(() => {
         if (country === "world") {
           return createCountryTimeSeries(data.rawData)

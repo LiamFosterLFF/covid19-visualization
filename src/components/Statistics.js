@@ -23,11 +23,12 @@ const Statistics = ({ handleClick, data }) => {
 
     return (
         <Grid columns="centered" divided>
-            {Object.entries(statistics).map(([statName, statValue]) => {
+            {Object.entries(statistics).map(([statName, statValue], index) => {
                     const statNameCapitalized = statName.charAt(0).toUpperCase() + statName.slice(1);
                     const statValueWithCommas = statValue.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
                     return (
                         <Grid.Column 
+                            key={index}
                             width={3} 
                             className={statName}
                             onClick={() => handleClick(statName)} 

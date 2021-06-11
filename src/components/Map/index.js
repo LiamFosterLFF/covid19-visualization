@@ -15,10 +15,8 @@ const Map = (props) => {
     const [ map, setMap ] = useState(componentJsonDictionary["worldLowRes"]);
 
     const calculateMapStats = (countryData) => {
-        console.log("A", countryData);
         const provinceStats = {};
         Object.entries(countryData).forEach(([provinceName, provinceData]) => {
-            console.log(provinceName);
             if (provinceData.confirmed) {
                 const mostRecentTotal = provinceData.confirmed.slice(-1)[0][1];
                 const tenDaysAgoTotal = provinceData.confirmed.slice(-10)[0][1];
@@ -38,7 +36,6 @@ const Map = (props) => {
           }
         
         const processUSData = (USData) => {
-            console.log("HIT");
             // Need to clean the data a little bit, the dictionary keys don't match
             const processedData = {}
             USData.forEach((localDataSet) => {
@@ -55,7 +52,6 @@ const Map = (props) => {
                     processedData[stateName] = { confirmed: localData };
                 }
             })
-            console.log(processedData);
             return processedData
         }
         let processedData;
@@ -95,7 +91,6 @@ const Map = (props) => {
     }
 
     useEffect(() => {
-        console.log(props.country, props.country === "us");
         if (Object.entries(props.data).length > 0) {
             if (props.country === "world") {
                 setMapStats(calculateMapStats(preprocessProvincialData(props.data)))
@@ -171,7 +166,7 @@ const Map = (props) => {
                 {(props.country === "world") ? <div></div> : <Button onClick={backClick}>World Map</Button>}
                 <VectorMap 
                     {...map} 
-                    layerProps={{ onClick, onMouseEnter: ({ target }) => console.log(target.attributes.name.value)}}
+                    layerProps={{ onClick }}
                 />
             </MapStyling>
 
