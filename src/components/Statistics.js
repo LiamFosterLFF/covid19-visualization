@@ -5,7 +5,7 @@ const Statistics = ({ handleClick, data }) => {
 
     const [ statistics, setStatistics ] = useState({"confirmed": 0, "recovered": 0, "deaths": 0});
     useEffect(() => {
-        const stats = {...statistics}
+        const stats = {"confirmed": 0, "recovered": 0, "deaths": 0}
         // Find the most recent value for each province and add to totals for relevant dataset type
         Object.entries(data).forEach(([provinceName, provinceData]) => {
             Object.entries(provinceData).forEach(([dataType, dataSet]) => {
