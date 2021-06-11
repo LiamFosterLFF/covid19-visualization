@@ -6,7 +6,7 @@ import YAxis from 'recharts/lib/cartesian/YAxis';
 import { Grid } from 'semantic-ui-react';
 
 const DailyChart = ({ data, dataType }) => {
-  const [ chartData, setChartData ]  = useState({});
+  const [ chartData, setChartData ]  = useState([]);
   const calculateDailyIncrease = (data) => {
     const dailyIncrease = [];
     if (data.length > 0) {

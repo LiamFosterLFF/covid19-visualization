@@ -13,12 +13,11 @@ ReactDOM.render(
 
 
 // Bugs 
-// Probably some explanation of what is happening/can do
-// Add map color legend
+// Probably some explanation of what is happening/can do - tooltips, maybe alt-text if on mobile
+// Make text on top prettier and add country name to charts
 // Clean up all warning
 
 // Nice to have
-// Add US state functionality
 // Some way of scrolling back through the data - probably by clicking on chart
 // Make app more performant so its not constantly pinging the server (useMemo)
 // Pull all updating functionality out into a custom useeffect hook (call it useJHAPI or sth)
