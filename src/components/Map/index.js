@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import componentJsonDictionary from '../../topojsons/all-jsons.js';
 
 import styled from 'styled-components'
 import { VectorMap } from '@south-paw/react-vector-maps';
 import countryNameDictionary from '../../countryNameDictionary.js';
 import Rainbow from 'rainbowvis.js';
-import { Button, Grid } from 'semantic-ui-react'
+import { Button, Grid, Popup } from 'semantic-ui-react'
 import * as d3 from 'd3';
 
 const MapStyling = styled.div`
@@ -30,6 +30,10 @@ const Map = (props) => {
     const [ provinceColors, setProvinceColors ] = useState("");
     const [ map, setMap ] = useState(componentJsonDictionary["worldLowRes"]);
 
+    const [ tooltipOpen, setTooltipOpen ] = useState(false)
+    const [ tooltipText, setToolTipText ] = useState("")
+    const tooltipRef = useRef()
+
     const calculateMapStats = (countryData) => {
         const provinceStats = {};
         Object.entries(countryData).forEach(([provinceName, provinceData]) => {
@@ -39,7 +43,14 @@ const Map = (props) => {
                 const numberOfNewInfections = mostRecentTotal - tenDaysAgoTotal;
                 const rateOfChange = (numberOfNewInfections)/mostRecentTotal;
                 const maxRedValue = 20000;
-                provinceStats[provinceName] = (rateOfChange*numberOfNewInfections)/(maxRedValue/100)
+                provinceStats[provinceName] = {
+                    mostRecentTotal,
+                    tenDaysAgoTotal,
+                    tenDaysNewInfections: numberOfNewInfections,
+                    rateOfChange,
+                    tooltipMapStat: rateOfChange * numberOfNewInfections,
+                    mapColorStat: (rateOfChange*numberOfNewInfections)/(maxRedValue/100)
+                }
             }
         })
         return provinceStats;
@@ -138,7 +149,7 @@ const Map = (props) => {
             Object.entries(mapStats).forEach(([provinceName, provinceStat]) => {
                 const provinceId = countryIdDictionary[provinceName.toLowerCase()];
                 if (provinceId !== undefined) { // Object is in dictionary (not a boat or small country etc)
-                    const hue = rainbow.colourAt(Math.floor(provinceStat))
+                    const hue = rainbow.colourAt(Math.floor(provinceStat.mapColorStat))
                     newProvinceColors += `&[id="${provinceId}"] {fill: #${hue}}`
                 }
             })
@@ -155,6 +166,34 @@ const Map = (props) => {
             
         }
     }
+
+    const onMouseEnter = ({ target }) => {
+        const createTooltipContent = (country) =>{
+            const { mostRecentTotal, tenDaysNewInfections, rateOfChange } = mapStats[country]
+            return (<>
+                <Popup.Header>{country}</Popup.Header>
+                <Popup.Content>
+                <div>Most Recent Total {mostRecentTotal}</div>
+                <div>Ten Days New Cases {tenDaysNewInfections}</div>
+                <div>Rate of Change {rateOfChange.toFixed(2)}</div>
+                <div>Click Country for More Details</div>
+                </Popup.Content>
+            </>)
+        }
+        console.log(mapStats);
+        const hoveredCountry = target.attributes.name.value
+        if (mapStats[hoveredCountry]) {
+            setTooltipOpen(false)
+            setToolTipText(createTooltipContent(hoveredCountry));      
+            setTooltipOpen(true)
+            tooltipRef.current = target
+        }
+        
+    }
+
+    const onMouseLeave = () => {
+        setTooltipOpen(false)
+    }
     
     const backClick = () => {
         props.setCountry("world")
@@ -166,11 +205,11 @@ const Map = (props) => {
     return (
         <Grid.Column width={8}>
             <MapStyling colors={provinceColors}>
-            {(props.country === "world") ? <div></div> : <Button onClick={backClick}>World Map</Button>}
-                <VectorMap 
-                    {...map} 
-                    layerProps={{ onClick }}
-                />
+                {(props.country === "world") ? <div></div> : <Button onClick={backClick}>World Map</Button>}
+                <VectorMap {...map} layerProps={{ onClick, onMouseEnter, onMouseLeave }}/>
+                <Popup basic context={tooltipRef} position='bottom center' onClose={() => setTooltipOpen(false)} open={tooltipOpen}>
+                    {tooltipText}
+                </Popup>
             </MapStyling>
 
         </Grid.Column>
