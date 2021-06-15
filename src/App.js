@@ -124,7 +124,7 @@ const App = () => {
   return (
     <div className="App">
         <Statistics data={countryData.timeLimited} handleClick={setDataType}/>
-      <Grid stackable columns={2}>
+      <Grid stackable columns={2}  style={{maxHeight: "1vh"}}>
           <Map setCountry={setCountry} country={country} data={countryData.timeLimited}/>
           <Charts country={country}data={countryData.timeLimited} dataType={dataType} showBackButton={dateLimit !== null} resetDate={handleDateReset} setDate={setDateLimit} /> 
       </Grid>
