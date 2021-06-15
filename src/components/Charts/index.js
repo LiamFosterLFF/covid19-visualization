@@ -5,7 +5,7 @@ import DailyChart from "./DailyChart";
 
 import { Grid, Button } from 'semantic-ui-react';
 
-const Charts = ({ data, dataType, country, showBackButton, setDate }) => {
+const Charts = ({ data, dataType, country, showBackButton, setDate, resetDate }) => {
 
     const [ graphArrays, setGraphArrays ] = useState({});
 
@@ -33,7 +33,7 @@ const Charts = ({ data, dataType, country, showBackButton, setDate }) => {
 
     return (
         <Grid.Column className="charts" width={8}  style={{maxHeight: "50vh"}}>
-            {showBackButton ?  <Button onClick={() => setDate(null)}>Revert to Present Date</Button>: ""}
+            {showBackButton ?  <Button onClick={() => resetDate()}>Revert to Present Date</Button>: ""}
           <TotalChart country={country} data={graphArrays} setDate={setDate}/> 
           <DailyChart country={country} data={graphArrays} dataType={dataType} setDate={setDate}/> 
         </Grid.Column>
