@@ -14,7 +14,6 @@ ReactDOM.render(
 
 // Bugs 
 // Make text on top prettier 
-// US currently doesn't work on map tooltip, neither does Congo Kinshasa
 // Map should be all of color on main chart if no provincial data
 // Need a cursor for chart and some sort of indicator of clickability
 // Clean up all warning

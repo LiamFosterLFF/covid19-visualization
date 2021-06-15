@@ -10,7 +10,7 @@ import * as d3 from 'd3';
 
 const MapStyling = styled.div`
     path {
-        ${props => props.colors}
+        ${props => props.colors.provinces}
         &:hover {
             opacity: 0.5;
             cursor: pointer;
@@ -18,7 +18,7 @@ const MapStyling = styled.div`
     }
     svg { 
         stroke: #fff;
-        fill: grey;
+        fill: ${props => props.colors.default};
         margin: 0% 5% ;
     }
 `;
@@ -27,7 +27,7 @@ const MapStyling = styled.div`
 const Map = (props) => {
 
     const [ mapStats, setMapStats ] = useState({})
-    const [ provinceColors, setProvinceColors ] = useState("");
+    const [ provinceColors, setProvinceColors ] = useState({ default: "", provinces: "" });
     const [ map, setMap ] = useState(componentJsonDictionary["worldLowRes"]);
 
     const [ tooltipOpen, setTooltipOpen ] = useState(false)
@@ -43,7 +43,8 @@ const Map = (props) => {
                 const numberOfNewInfections = mostRecentTotal - tenDaysAgoTotal;
                 // Prevent divide by 0
                 const rateOfChange = (mostRecentTotal==="0") ? 0 : (numberOfNewInfections)/(mostRecentTotal);
-                const maxRedValue = 20000;
+                // Different threshold depending on if provincial or national sum
+                const maxRedValue = 20000 
                 provinceStats[provinceName] = {
                     mostRecentTotal,
                     tenDaysAgoTotal,
@@ -146,6 +147,7 @@ const Map = (props) => {
             // Set a custom color gradient from 0=green to 100=red
             const rainbow = new Rainbow();
             rainbow.setSpectrum('#29e229', '#ddd623', '#e72a2a')
+            const defaultColor = (props.country === "world") ? 'grey' : "#" + rainbow.colourAt(Math.floor(mapStats[capitalizedCountry].mapColorStat))
             Object.entries(mapStats).forEach(([provinceName, provinceStat]) => {
                 const provinceId = countryIdDictionary[provinceName.toLowerCase()];
                 if (provinceId !== undefined) { // Object is in dictionary (not a boat or small country etc)
@@ -153,7 +155,7 @@ const Map = (props) => {
                     newProvinceColors += `&[id="${provinceId}"] {fill: #${hue}}`
                 }
             })
-            setProvinceColors(newProvinceColors)
+            setProvinceColors({ default: defaultColor, provinces: newProvinceColors })
         }
     }, [mapStats])
 
@@ -184,7 +186,6 @@ const Map = (props) => {
             </>)
         }
         const hoveredCountry = target.attributes.name.value
-        console.log(props.country, hoveredCountry, mapStats);
 
         if (mapStats[hoveredCountry]) {
             setTooltipOpen(false)
