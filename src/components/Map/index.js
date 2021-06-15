@@ -147,7 +147,6 @@ const Map = (props) => {
             const rainbow = new Rainbow();
             rainbow.setSpectrum('#29e229', '#ddd623', '#e72a2a')
             Object.entries(mapStats).forEach(([provinceName, provinceStat]) => {
-                console.log(provinceName, provinceStat);
                 const provinceId = countryIdDictionary[provinceName.toLowerCase()];
                 if (provinceId !== undefined) { // Object is in dictionary (not a boat or small country etc)
                     const hue = rainbow.colourAt(Math.floor(provinceStat.mapColorStat))

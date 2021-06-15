@@ -3,9 +3,9 @@ import React, { useState, useEffect } from 'react';
 import TotalChart from "./TotalChart";
 import DailyChart from "./DailyChart";
 
-import { Grid, Button } from 'semantic-ui-react';
+import { Grid, Button, Header } from 'semantic-ui-react';
 
-const Charts = ({ data, dataType, country, showBackButton, setDate, resetDate }) => {
+const Charts = ({ data, dataType, country, date, setDate, resetDate }) => {
 
     const [ graphArrays, setGraphArrays ] = useState({});
 
@@ -31,9 +31,18 @@ const Charts = ({ data, dataType, country, showBackButton, setDate, resetDate })
         setGraphArrays(createGraphArrays(data))
     }, [data])
 
+    const getFormattedDate = () => {
+        const presentDateObj = new Date();
+        const day = presentDateObj.getDate();
+        const month = presentDateObj.getMonth();
+        const year = presentDateObj.getFullYear().toString().slice(2);
+        return `${month}/${day}/${year}`
+    }
+
     return (
         <Grid.Column className="charts" width={8}  style={{maxHeight: "50vh"}}>
-            {showBackButton ?  <Button onClick={() => resetDate()}>Revert to Present Date</Button>: ""}
+            <Header as="h2">Date: {(date!==null) ? date : getFormattedDate()}</Header>
+            {(date!==null) ?  <Button onClick={() => resetDate()}>Revert to Present Date</Button>: ""}
           <TotalChart country={country} data={graphArrays} setDate={setDate}/> 
           <DailyChart country={country} data={graphArrays} dataType={dataType} setDate={setDate}/> 
         </Grid.Column>
