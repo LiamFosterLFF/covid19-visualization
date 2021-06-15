@@ -41,7 +41,8 @@ const Map = (props) => {
                 const mostRecentTotal = provinceData.confirmed.slice(-1)[0][1];
                 const tenDaysAgoTotal = provinceData.confirmed.slice(-10)[0][1];
                 const numberOfNewInfections = mostRecentTotal - tenDaysAgoTotal;
-                const rateOfChange = (numberOfNewInfections)/mostRecentTotal;
+                // Prevent divide by 0
+                const rateOfChange = (mostRecentTotal==="0") ? 0 : (numberOfNewInfections)/(mostRecentTotal);
                 const maxRedValue = 20000;
                 provinceStats[provinceName] = {
                     mostRecentTotal,
@@ -145,8 +146,8 @@ const Map = (props) => {
             // Set a custom color gradient from 0=green to 100=red
             const rainbow = new Rainbow();
             rainbow.setSpectrum('#29e229', '#ddd623', '#e72a2a')
-
             Object.entries(mapStats).forEach(([provinceName, provinceStat]) => {
+                console.log(provinceName, provinceStat);
                 const provinceId = countryIdDictionary[provinceName.toLowerCase()];
                 if (provinceId !== undefined) { // Object is in dictionary (not a boat or small country etc)
                     const hue = rainbow.colourAt(Math.floor(provinceStat.mapColorStat))

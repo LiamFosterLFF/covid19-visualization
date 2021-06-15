@@ -33,7 +33,6 @@ const Charts = ({ data, dataType, country, showBackButton, setDate }) => {
 
     return (
         <Grid.Column className="charts" width={8}  style={{maxHeight: "50vh"}}>
-            
             {showBackButton ?  <Button onClick={() => setDate(null)}>Revert to Present Date</Button>: ""}
           <TotalChart country={country} data={graphArrays} setDate={setDate}/> 
           <DailyChart country={country} data={graphArrays} dataType={dataType} setDate={setDate}/> 
