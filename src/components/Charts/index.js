@@ -3,9 +3,9 @@ import React, { useState, useEffect } from 'react';
 import TotalChart from "./TotalChart";
 import DailyChart from "./DailyChart";
 
-import { Grid } from 'semantic-ui-react';
+import { Grid, Button } from 'semantic-ui-react';
 
-const Charts = ({ data, dataType, country }) => {
+const Charts = ({ data, dataType, country, showBackButton, setDate }) => {
 
     const [ graphArrays, setGraphArrays ] = useState({});
 
@@ -33,8 +33,9 @@ const Charts = ({ data, dataType, country }) => {
 
     return (
         <Grid.Column className="charts" width={8} >
-          <TotalChart country={country} data={graphArrays} /> 
-          <DailyChart country={country} data={graphArrays} dataType={dataType}/> 
+            {showBackButton ? <Button onClick={() => setDate(null)}>Revert to Present Date</Button> : <div></div>}
+          <TotalChart country={country} data={graphArrays} setDate={setDate}/> 
+          <DailyChart country={country} data={graphArrays} dataType={dataType} setDate={setDate}/> 
         </Grid.Column>
     )
 }

@@ -3,7 +3,7 @@ import { BarChart, Bar, CartesianGrid, Tooltip, ResponsiveContainer } from 'rech
 import XAxis from 'recharts/lib/cartesian/XAxis';
 import YAxis from 'recharts/lib/cartesian/YAxis';
 
-const DailyChart = ({ data, dataType, country }) => {
+const DailyChart = ({ data, dataType, country, setDate }) => {
   const [ chartData, setChartData ]  = useState([]);
   const calculateDailyIncrease = (data) => {
     const dailyIncrease = [];
@@ -40,6 +40,10 @@ const DailyChart = ({ data, dataType, country }) => {
   const handleTooltipFormat = (value) => {
     return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
   }
+  
+  const handleChartOnClick = (e) => {
+    console.log(e.activePayload[0].payload.date);
+  }
 
   const capitalizedCountry = country[0].toUpperCase() + country.slice(1)
 
@@ -48,10 +52,12 @@ const DailyChart = ({ data, dataType, country }) => {
     "recovered": `Daily Recovered (${capitalizedCountry})`,
     "deaths": `Daily Deceased (${capitalizedCountry})`,
   }
+
+  
   
   return (
     <ResponsiveContainer height="50%">
-      <BarChart width={600} height={200} data={chartData}>
+      <BarChart width={600} height={200} data={chartData} onClick={(e) => setDate(e.activePayload[0].payload.date)}>
         <CartesianGrid strokeDasharray="3 3" />
         <Tooltip formatter={(value) => handleTooltipFormat(value)}/>
         <XAxis dataKey="date" />

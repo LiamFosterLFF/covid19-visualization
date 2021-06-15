@@ -168,23 +168,22 @@ const Map = (props) => {
     }
 
     const onMouseEnter = ({ target }) => {
-        const createTooltipContent = (country) =>{
-            const { mostRecentTotal, tenDaysNewInfections, rateOfChange } = mapStats[country]
+        const createTooltipContent = (country, province) =>{
+            const { mostRecentTotal, tenDaysNewInfections, rateOfChange } = mapStats[province]
             return (<>
-                <Popup.Header>{country}</Popup.Header>
+                <Popup.Header>{province}</Popup.Header>
                 <Popup.Content>
                 <div>Most Recent Total {mostRecentTotal}</div>
                 <div>Ten Days New Cases {tenDaysNewInfections}</div>
                 <div>Rate of Change {rateOfChange.toFixed(2)}</div>
-                <div>Click Country for More Details</div>
+                {(country === "world") ? <div>Click Country for More Details</div> : ""}
                 </Popup.Content>
             </>)
         }
-        console.log(mapStats);
         const hoveredCountry = target.attributes.name.value
         if (mapStats[hoveredCountry]) {
             setTooltipOpen(false)
-            setToolTipText(createTooltipContent(hoveredCountry));      
+            setToolTipText(createTooltipContent(props.country, hoveredCountry));      
             setTooltipOpen(true)
             tooltipRef.current = target
         }

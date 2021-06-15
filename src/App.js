@@ -14,7 +14,8 @@ const App = () => {
   const [ USData, ] = useState({data: {}, isFetching: true})
   const [ country, setCountry ] = useState("world")
   const [ dataType, setDataType ] = useState("confirmed")
-  const [ countryData, setCountryData ] = useState({})
+  const [ countryData, setCountryData ] = useState({original: {}, timeLimited: {} })
+  const [ dateLimit, setDateLimit ] = useState(null)
 
 
   const getSingularDataType = async (dataType) => { // Sets one data type at a time, saves on copy/paste
@@ -83,7 +84,7 @@ const App = () => {
   useEffect(() => {
     // Create countryData, if for world, do for all countries, each country functions as a "province"
     if (!data.isFetching) {
-      setCountryData(() => {
+      const getCountryData = (data) => {
         if (country === "world") {
           return createCountryTimeSeries(data.rawData)
         } else {
@@ -93,16 +94,39 @@ const App = () => {
           })
           return createCountryTimeSeries(countryData)
         }
-      })
+      }
+      const originalCountryData = getCountryData(data)
+      setCountryData({ original: originalCountryData, timeLimited: originalCountryData })
     }
   }, [data, country, USData])
 
+
+  useEffect(() => {
+    if (dateLimit !== null) {
+      const newCountryData = {}
+      const dateLimitObj = new Date(dateLimit)
+      Object.entries(countryData.original).forEach(([provinceName, provinceData]) => {
+        newCountryData[provinceName] = {}
+        Object.entries(provinceData).forEach(([dataType, dataSet]) => {
+          newCountryData[provinceName][dataType] = dataSet.filter(([date, ]) => dateLimitObj >= new Date(date))
+        })
+      })
+      setCountryData((currentData) => ({ ...currentData, timeLimited: newCountryData }) );
+    }
+  }, [dateLimit])
+
+  const handleDateReset = () => {
+    setDateLimit(null)
+    const originalCountryData = countryData.original
+    setCountryData({ original: originalCountryData, timeLimited: originalCountryData })
+  }
+
   return (
     <div className="App">
-        <Statistics data={countryData} handleClick={setDataType}/>
+        <Statistics data={countryData.timeLimited} handleClick={setDataType}/>
       <Grid stackable columns={2}>
-          <Map setCountry={setCountry} country={country} data={countryData}/>
-          <Charts country={country}data={countryData} dataType={dataType}/> 
+          <Map setCountry={setCountry} country={country} data={countryData.timeLimited}/>
+          <Charts country={country}data={countryData.timeLimited} dataType={dataType} showBackButton={dateLimit !== null} resetDate={handleDateReset} setDate={setDateLimit} /> 
       </Grid>
 
     </div>
