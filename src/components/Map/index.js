@@ -5,7 +5,7 @@ import styled from 'styled-components'
 import { VectorMap } from '@south-paw/react-vector-maps';
 import countryNameDictionary from '../../countryNameDictionary.js';
 import Rainbow from 'rainbowvis.js';
-import { Button, Grid, Popup } from 'semantic-ui-react'
+import { Button, Grid, Popup, Header } from 'semantic-ui-react'
 import * as d3 from 'd3';
 
 const MapStyling = styled.div`
@@ -168,13 +168,16 @@ const Map = (props) => {
     }
 
     const onMouseEnter = ({ target }) => {
-        const createTooltipContent = (country, province) =>{
+        const createTooltipContent = (country, province) => {
+            const formatNumbers = (number) => {
+                return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+            }
             const { mostRecentTotal, tenDaysNewInfections, rateOfChange } = mapStats[province]
             return (<>
                 <Popup.Header>{province}</Popup.Header>
                 <Popup.Content>
-                <div>Most Recent Total {mostRecentTotal}</div>
-                <div>Ten Days New Cases {tenDaysNewInfections}</div>
+                <div>Most Recent Total {formatNumbers(mostRecentTotal)}</div>
+                <div>Ten Days New Cases {formatNumbers(tenDaysNewInfections)}</div>
                 <div>Rate of Change {rateOfChange.toFixed(2)}</div>
                 {(country === "world") ? <div>Click Country for More Details</div> : ""}
                 </Popup.Content>
@@ -199,12 +202,17 @@ const Map = (props) => {
         setMap(componentJsonDictionary["worldLowRes"])
     }
 
+    const capitalizedCountry = props.country[0].toUpperCase() + props.country.slice(1)
+
 
 
     return (
         <Grid.Column width={8}>
             <MapStyling colors={provinceColors}>
-                {(props.country === "world") ? <div></div> : <Button onClick={backClick}>World Map</Button>}
+                <div>
+                    <Header as="h1" textAlign="center">{capitalizedCountry}</Header>
+                    {(props.country === "world") ? <div></div> : <Button onClick={backClick}>World Map</Button>}
+                </div>
                 <VectorMap {...map} layerProps={{ onClick, onMouseEnter, onMouseLeave }}/>
                 <Popup basic context={tooltipRef} position='bottom center' onClose={() => setTooltipOpen(false)} open={tooltipOpen}>
                     {tooltipText}

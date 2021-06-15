@@ -13,14 +13,15 @@ ReactDOM.render(
 
 
 // Bugs 
-// Make text on top prettier and add country name to charts
+// Make text on top prettier 
+// US currently doesn't work on map tooltip, neither does Congo Kinshasa
+// Map should be all of color on main chart if no provincial data
+// Need a cursor for chart and some sort of indicator of clickability
 // Clean up all warning
 
 // Nice to have
-// Some way of scrolling back through the data - probably by clicking on chart
 // Make app more performant so its not constantly pinging the server (useMemo)
 // Pull all updating functionality out into a custom useeffect hook (call it useJHAPI or sth)
-// Hover text on map? for name of country, possibly data as well
 // Some countries lack maps, possibly a way to fix this? If not no big deal
 //    Possible solution: Tooltip text shows if map available, stats etc, if data available
 //    Currently no data for : North Korea, turkmenistan, western sahara
