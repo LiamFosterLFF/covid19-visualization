@@ -70,12 +70,14 @@ const App = () => {
     const sortedTimeSeriesArrays = {}
     Object.entries(countryData).forEach(([dataType, provinces]) => {
       provinces.forEach((province) => {
-        const provinceText = (province["Province/State"] === "") ? "" : `, ${province["Province/State"]}`;
-        const provinceName = province["Country/Region"] + provinceText;
+        const subprovinceName = (province["Province/State"] === "") ? "" : `, ${province["Province/State"]}`;
+        // Handle US slightly differently, easier to deal with
+        const provinceName = (province["Country/Region"] === "US") ? "United States" : province["Country/Region"];
+        const provinceText = provinceName + subprovinceName;
         const provinceData = Object.entries(province).filter(([key, value]) => !isNaN(key[0]))
         // Create province name in time series array if not already created
-        sortedTimeSeriesArrays[provinceName] = (sortedTimeSeriesArrays[provinceName]) ? {...sortedTimeSeriesArrays[provinceName]} : {};
-        sortedTimeSeriesArrays[provinceName][dataType] = createSortedTimeSeriesArray(provinceData);
+        sortedTimeSeriesArrays[provinceText] = (sortedTimeSeriesArrays[provinceText]) ? {...sortedTimeSeriesArrays[provinceText]} : {};
+        sortedTimeSeriesArrays[provinceText][dataType] = createSortedTimeSeriesArray(provinceData);
       })
     });
     return sortedTimeSeriesArrays;

@@ -122,7 +122,7 @@ const Map = (props) => {
         if (Object.entries(props.data).length > 0) {
             if (props.country === "world") {
                 setMapStats(calculateMapStats(preprocessProvincialData(props.data)))
-            } else if (props.country === "us") {
+            } else if (props.country === "United States") {
                 // Handle US Data separately, it's a whole different chart and so is only fetched when called here
                 getProcessedUSData().then(rawData => {
                     setMapStats(calculateMapStats(rawData))
@@ -184,6 +184,8 @@ const Map = (props) => {
             </>)
         }
         const hoveredCountry = target.attributes.name.value
+        console.log(props.country, hoveredCountry, mapStats);
+
         if (mapStats[hoveredCountry]) {
             setTooltipOpen(false)
             setToolTipText(createTooltipContent(props.country, hoveredCountry));      
