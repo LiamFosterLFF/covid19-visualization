@@ -113,7 +113,7 @@ const App = () => {
       })
       setCountryData((currentData) => ({ ...currentData, timeLimited: newCountryData }) );
     }
-  }, [dateLimit])
+  }, [dateLimit, countryData.original])
 
   const handleDateReset = () => {
     setDateLimit(null)

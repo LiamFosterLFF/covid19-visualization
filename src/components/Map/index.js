@@ -37,7 +37,7 @@ const Map = (props) => {
     const calculateMapStats = (countryData) => {
         const provinceStats = {};
         Object.entries(countryData).forEach(([provinceName, provinceData]) => {
-            if (provinceData.confirmed.length > 0) {
+            if (provinceData.confirmed && provinceData.confirmed.length > 0) {
                 const mostRecentTotal = provinceData.confirmed.slice(-1)[0][1];
                 const tenDaysAgoTotal = provinceData.confirmed.slice(-10)[0][1];
                 const numberOfNewInfections = mostRecentTotal - tenDaysAgoTotal;

@@ -41,10 +41,6 @@ const DailyChart = ({ data, dataType, country, setDate }) => {
     return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
   }
   
-  const handleChartOnClick = (e) => {
-    console.log(e.activePayload[0].payload.date);
-  }
-
   const capitalizedCountry = country[0].toUpperCase() + country.slice(1)
 
   const yAxisDict = {
