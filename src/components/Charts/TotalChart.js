@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid , Legend, Tooltip, ResponsiveContainer } from 'recharts';
 
-const TotalChart = ({ data }) => {
+const TotalChart = ({ data, country }) => {
 
   // Combine all three dataTypes into single items with all three values
   const [ lineData, setLineData ] = useState([])
@@ -28,6 +28,8 @@ const TotalChart = ({ data }) => {
     return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
   }
 
+  const capitalizedCountry = country[0].toUpperCase() + country.slice(1)
+
   return (
       <ResponsiveContainer height="50%">
         <AreaChart width={600} height={200} data={lineData}>
@@ -37,7 +39,7 @@ const TotalChart = ({ data }) => {
           <XAxis dataKey="date" />
           <YAxis 
             tickFormatter={(tick) => handleTickFormat(tick)} 
-            label={{ value: "Total Overall Cases", offset: 10, angle: -90, position: 'insideBottomLeft' }}
+            label={{ value: `Total Overall Cases (${capitalizedCountry})`, offset: 10, angle: -90, position: 'insideBottomLeft' }}
           /> 
           <Area type="monotone" dataKey="confirmed" stroke="#8884d8" fill="#8884d8"/>
           <Area type="monotone" dataKey="deaths" stroke="#f72e2e" fill="#f72e2e" />

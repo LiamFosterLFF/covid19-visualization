@@ -102,7 +102,7 @@ const App = () => {
         <Statistics data={countryData} handleClick={setDataType}/>
       <Grid stackable columns={2}>
           <Map setCountry={setCountry} country={country} data={countryData}/>
-          <Charts data={countryData} dataType={dataType}/> 
+          <Charts country={country}data={countryData} dataType={dataType}/> 
       </Grid>
 
     </div>

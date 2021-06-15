@@ -3,7 +3,7 @@ import { BarChart, Bar, CartesianGrid, Tooltip, ResponsiveContainer } from 'rech
 import XAxis from 'recharts/lib/cartesian/XAxis';
 import YAxis from 'recharts/lib/cartesian/YAxis';
 
-const DailyChart = ({ data, dataType }) => {
+const DailyChart = ({ data, dataType, country }) => {
   const [ chartData, setChartData ]  = useState([]);
   const calculateDailyIncrease = (data) => {
     const dailyIncrease = [];
@@ -41,10 +41,12 @@ const DailyChart = ({ data, dataType }) => {
     return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
   }
 
+  const capitalizedCountry = country[0].toUpperCase() + country.slice(1)
+
   const yAxisDict = {
-    "confirmed": "New Confirmed Cases",
-    "recovered": "Daily Recovered",
-    "deaths": "Daily Deceased",
+    "confirmed": `New Confirmed Cases (${capitalizedCountry})`,
+    "recovered": `Daily Recovered (${capitalizedCountry})`,
+    "deaths": `Daily Deceased (${capitalizedCountry})`,
   }
   
   return (

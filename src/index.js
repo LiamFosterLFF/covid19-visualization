@@ -13,7 +13,6 @@ ReactDOM.render(
 
 
 // Bugs 
-// Probably some explanation of what is happening/can do - tooltips, maybe alt-text if on mobile
 // Make text on top prettier and add country name to charts
 // Clean up all warning
 

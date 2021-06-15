@@ -5,7 +5,7 @@ import DailyChart from "./DailyChart";
 
 import { Grid } from 'semantic-ui-react';
 
-const Charts = ({ data, dataType}) => {
+const Charts = ({ data, dataType, country }) => {
 
     const [ graphArrays, setGraphArrays ] = useState({});
 
@@ -33,8 +33,8 @@ const Charts = ({ data, dataType}) => {
 
     return (
         <Grid.Column className="charts" width={8} >
-          <TotalChart data={graphArrays} /> 
-          <DailyChart data={graphArrays} dataType={dataType}/> 
+          <TotalChart country={country} data={graphArrays} /> 
+          <DailyChart country={country} data={graphArrays} dataType={dataType}/> 
         </Grid.Column>
     )
 }
