@@ -53,7 +53,7 @@ const DailyChart = ({ data, dataType, country, setDate }) => {
   
   return (
     <ResponsiveContainer height="50%">
-      <BarChart data={chartData} onClick={(e) => setDate(e.activePayload[0].payload.date)}>
+      <BarChart data={chartData} onClick={(e) => setDate(e.activePayload[0].payload.date)} style={{"cursor": "pointer"}}>
         <CartesianGrid strokeDasharray="3 3" />
         <Tooltip formatter={(value) => handleTooltipFormat(value)}/>
         <XAxis dataKey="date" />

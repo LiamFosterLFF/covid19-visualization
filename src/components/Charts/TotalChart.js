@@ -32,7 +32,7 @@ const TotalChart = ({ data, country, setDate }) => {
 
   return (
       <ResponsiveContainer height="50%">
-        <AreaChart data={lineData} onClick={(e) => setDate(e.activePayload[0].payload.date)}>
+        <AreaChart data={lineData} onClick={(e) => setDate(e.activePayload[0].payload.date)} style={{"cursor": "pointer"}}>
           <CartesianGrid strokeDasharray="3 3" />
           <Tooltip formatter={(value) => handleTooltipFormat(value)}/>
           <Legend verticalAlign="top" height={36}/>
