@@ -37,7 +37,7 @@ const Statistics = ({ handleClick, data }) => {
                             onClick={() => handleClick(statName)} 
                             onMouseEnter={(e) => handleHover(e)}
                             onMouseLeave={() => setHoveredStat("")}
-                            style={{"fontSize": (hoveredStat === statName) ? "xx-large": "x-large", "cursor": "pointer", "color": textColors[statName]}}
+                            style={{"fontSize": (hoveredStat === statName) ? "large": "medium", "cursor": "pointer", "textAlign": "center", "color": textColors[statName]}}
                         >
                             {`${statNameCapitalized}: ${statValueWithCommas}`}
                         </Grid.Column>

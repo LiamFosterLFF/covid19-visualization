@@ -13,9 +13,8 @@ ReactDOM.render(
 
 
 // Bugs 
+// States color being set to that of country rather than individual state
 // Clean up all warning
 
 // Nice to have
 // Some countries lack maps, possibly a way to fix this? If not no big deal
-//    Possible solution: Tooltip text shows if map available, stats etc, if data available
-//    Currently no data for : North Korea, turkmenistan, western sahara
