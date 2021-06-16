@@ -13,7 +13,6 @@ ReactDOM.render(
 
 
 // Bugs 
-// Clicking china, aus, canada, us causes a crash
 // Clean up all warning
 
 // Nice to have

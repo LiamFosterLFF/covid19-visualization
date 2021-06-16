@@ -175,26 +175,32 @@ const Map = (props) => {
             const formatNumbers = (number) => {
                 return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
             }
-            const { mostRecentTotal, tenDaysNewInfections, rateOfChange } = mapStats[province]
-            return (<>
-                <Popup.Header>{province}</Popup.Header>
-                <Popup.Content>
-                <div>Most Recent Total {formatNumbers(mostRecentTotal)}</div>
-                <div>Ten Days New Cases {formatNumbers(tenDaysNewInfections)}</div>
-                <div>Rate of Change {rateOfChange.toFixed(2)}</div>
-                {(country === "world") ? <div>Click Country for More Details</div> : ""}
-                </Popup.Content>
-            </>)
+            if (mapStats[province]) {
+                const { mostRecentTotal, tenDaysNewInfections, rateOfChange } = mapStats[province]
+                return (<>
+                    <Popup.Header>{capitalizeCountry(province)}</Popup.Header>
+                    <Popup.Content>
+                    <div>Most Recent Total {formatNumbers(mostRecentTotal)}</div>
+                    <div>Ten Days New Cases {formatNumbers(tenDaysNewInfections)}</div>
+                    <div>Rate of Change {rateOfChange.toFixed(2)}</div>
+                    {(country === "world") ? <div>Click Country for More Details</div> : ""}
+                    </Popup.Content>
+                </>)
+            } else {
+                return (<>
+                    <Popup.Header>{capitalizeCountry(province)}</Popup.Header>
+                    <Popup.Content>
+                    <div>No Data Available</div>
+                    </Popup.Content>
+                </>)
+            }
         }
-        const hoveredCountry = target.attributes.name.value
+        const hoveredCountry = target.attributes.name.value.toLowerCase()
 
-        if (mapStats[hoveredCountry]) {
-            setTooltipOpen(false)
-            setToolTipText(createTooltipContent(props.country, hoveredCountry));      
-            setTooltipOpen(true)
-            tooltipRef.current = target
-        }
-        
+        setTooltipOpen(false)
+        setToolTipText(createTooltipContent(props.country, hoveredCountry));      
+        setTooltipOpen(true)
+        tooltipRef.current = target
     }
 
     const onMouseLeave = () => {
@@ -206,7 +212,7 @@ const Map = (props) => {
         setMap(componentJsonDictionary["worldLowRes"])
     }
 
-    const capitalizeCountry = (country) => country[0].toUpperCase() + country.slice(1);
+    const capitalizeCountry = (country) => country.split(' ').map(word => word[0].toUpperCase() + word.slice(1)).join(' ');
 
 
 
