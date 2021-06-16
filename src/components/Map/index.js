@@ -45,7 +45,7 @@ const Map = (props) => {
                 const rateOfChange = (mostRecentTotal==="0") ? 0 : (numberOfNewInfections)/(mostRecentTotal);
                 // Different threshold depending on if provincial or national sum
                 const maxRedValue = 20000 
-                provinceStats[provinceName] = {
+                provinceStats[provinceName.toLowerCase()] = {
                     mostRecentTotal,
                     tenDaysAgoTotal,
                     tenDaysNewInfections: numberOfNewInfections,
@@ -68,7 +68,7 @@ const Map = (props) => {
             // Need to clean the data a little bit, the dictionary keys don't match
             const processedData = {}
             USData.forEach((localDataSet) => {
-                const stateName = `us, ${localDataSet["Province_State"]}`;
+                const stateName = `united states, ${localDataSet["Province_State"]}`;
                 const localData = Object.entries(localDataSet).filter(([key, entry]) => {
                     return !isNaN(key[0]) 
                 })
@@ -147,7 +147,8 @@ const Map = (props) => {
             // Set a custom color gradient from 0=green to 100=red
             const rainbow = new Rainbow();
             rainbow.setSpectrum('#29e229', '#ddd623', '#e72a2a')
-            const defaultColor = (props.country === "world") ? 'grey' : "#" + rainbow.colourAt(Math.floor(mapStats[capitalizeCountry(props.country)].mapColorStat))
+            console.log(mapStats, props.country);
+            const defaultColor = (props.country === "world") ? 'grey' : "#" + rainbow.colourAt(Math.floor(mapStats[props.country].mapColorStat))
             Object.entries(mapStats).forEach(([provinceName, provinceStat]) => {
                 const provinceId = countryIdDictionary[provinceName.toLowerCase()];
                 if (provinceId !== undefined) { // Object is in dictionary (not a boat or small country etc)
