@@ -25,7 +25,6 @@ const TotalChart = ({ data, country, setDate }) => {
   }
 
   const handleTooltipFormat = (value, nm, props) => {
-    console.log(value, nm, props);
     return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
   }
 

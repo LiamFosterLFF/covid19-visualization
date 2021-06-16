@@ -18,7 +18,6 @@ const Statistics = ({ handleClick, data }) => {
 
     const [ hoveredStat, setHoveredStat ] = useState("")
     const handleHover = (e) => {
-        console.log(textColors[e.target.className.split(' ').slice(-1)[0]]);
         setHoveredStat(e.target.className.split(" ").slice(-1)[0]);
     }
 

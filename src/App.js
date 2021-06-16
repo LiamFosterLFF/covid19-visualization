@@ -19,11 +19,26 @@ const App = () => {
 
 
   const getSingularDataType = async (dataType) => { // Sets one data type at a time, saves on copy/paste
-    let rawData = await d3.csv(`https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_${dataType}_global.csv`)
 
-    return { [dataType]: rawData }
+    const isSameDate = (dateObj1, dateObj2) => (dateObj1.getDate() === dateObj2.getDate() && dateObj1.getMonth() === dateObj2.getMonth() && dateObj1.getFullYear() === dateObj2.getFullYear()) 
+
+    const cache = await caches.open('data.json')
+    const url = `https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_${dataType}_global.csv`
+    const cachedData = await cache.match(url)
+    const dataDate = new Date(localStorage.getItem('dataDate'));
+    if (cachedData === undefined || !isSameDate(new Date(), new Date(dataDate))) {
+      const response = await fetch(url)
+      const csvString = await response.text()
+      const rawData = await d3.csvParse(csvString)
+      cache.put(url, new Response(JSON.stringify(rawData)))
+      localStorage.setItem('dataDate', new Date())
+      return { [dataType]: rawData }
+    } else {
+      const rawData = await cachedData.json()
+      return { [dataType]: rawData }
+    }
+
   }
-
 
 
   useEffect(() => {
@@ -46,6 +61,7 @@ const App = () => {
     })
   }, [])
 
+  // Create time series for all countries based on raw data (for use in components)
   const createCountryTimeSeries = (countryData) => {
     const createSortedTimeSeriesArray = (dataTypeProvinceData) => {
       // Takes time series object for chosen country and turns into sorted array of form [[date, value],]
@@ -83,6 +99,7 @@ const App = () => {
     return sortedTimeSeriesArrays;
   }
 
+  // Side effect for changing country based on clicking on map
   useEffect(() => {
     // Create countryData, if for world, do for all countries, each country functions as a "province"
     if (!data.isFetching) {
@@ -100,9 +117,9 @@ const App = () => {
       const originalCountryData = getCountryData(data)
       setCountryData({ original: originalCountryData, timeLimited: originalCountryData })
     }
-  }, [data, country, USData])
+  }, [country, data, USData])
 
-
+  // Side effect for changing date based on clicking on chart 
   useEffect(() => {
     if (dateLimit !== null) {
       const newCountryData = {}

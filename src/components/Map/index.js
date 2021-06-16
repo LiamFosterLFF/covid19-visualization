@@ -147,7 +147,7 @@ const Map = (props) => {
             // Set a custom color gradient from 0=green to 100=red
             const rainbow = new Rainbow();
             rainbow.setSpectrum('#29e229', '#ddd623', '#e72a2a')
-            const defaultColor = (props.country === "world") ? 'grey' : "#" + rainbow.colourAt(Math.floor(mapStats[capitalizedCountry].mapColorStat))
+            const defaultColor = (props.country === "world") ? 'grey' : "#" + rainbow.colourAt(Math.floor(mapStats[capitalizeCountry(props.country)].mapColorStat))
             Object.entries(mapStats).forEach(([provinceName, provinceStat]) => {
                 const provinceId = countryIdDictionary[provinceName.toLowerCase()];
                 if (provinceId !== undefined) { // Object is in dictionary (not a boat or small country etc)
@@ -157,7 +157,7 @@ const Map = (props) => {
             })
             setProvinceColors({ default: defaultColor, provinces: newProvinceColors })
         }
-    }, [mapStats])
+    }, [mapStats, props.country])
 
     const onClick = ({ target }) => {
         const id = target.attributes.id.value;
@@ -205,7 +205,7 @@ const Map = (props) => {
         setMap(componentJsonDictionary["worldLowRes"])
     }
 
-    const capitalizedCountry = props.country[0].toUpperCase() + props.country.slice(1)
+    const capitalizeCountry = (country) => country[0].toUpperCase() + country.slice(1);
 
 
 
@@ -213,7 +213,7 @@ const Map = (props) => {
         <Grid.Column width={8}>
             <MapStyling colors={provinceColors}>
                 <div>
-                    <Header as="h1" textAlign="center">{capitalizedCountry}</Header>
+                    <Header as="h1" textAlign="center">{capitalizeCountry(props.country)}</Header>
                     {(props.country === "world") ? <div></div> : <Button onClick={backClick}>World Map</Button>}
                 </div>
                 <VectorMap {...map} layerProps={{ onClick, onMouseEnter, onMouseLeave }}/>
