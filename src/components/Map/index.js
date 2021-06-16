@@ -123,7 +123,7 @@ const Map = (props) => {
         if (Object.entries(props.data).length > 0) {
             if (props.country === "world") {
                 setMapStats(calculateMapStats(preprocessProvincialData(props.data)))
-            } else if (props.country === "United States") {
+            } else if (props.country === "united states") {
                 // Handle US Data separately, it's a whole different chart and so is only fetched when called here
                 getProcessedUSData().then(rawData => {
                     setMapStats(calculateMapStats(rawData))
@@ -147,7 +147,7 @@ const Map = (props) => {
             // Set a custom color gradient from 0=green to 100=red
             const rainbow = new Rainbow();
             rainbow.setSpectrum('#29e229', '#ddd623', '#e72a2a')
-            const defaultColorCountries = ["world", "canada", "australia", "china"]
+            const defaultColorCountries = ["world", "canada", "australia", "china", "united states"]
             const defaultColor = (defaultColorCountries.includes(props.country)) ? 'grey' : "#" + rainbow.colourAt(Math.floor(mapStats[props.country].mapColorStat))
             Object.entries(mapStats).forEach(([provinceName, provinceStat]) => {
                 const provinceId = countryIdDictionary[provinceName.toLowerCase()];
