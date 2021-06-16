@@ -147,8 +147,8 @@ const Map = (props) => {
             // Set a custom color gradient from 0=green to 100=red
             const rainbow = new Rainbow();
             rainbow.setSpectrum('#29e229', '#ddd623', '#e72a2a')
-            console.log(mapStats, props.country);
-            const defaultColor = (props.country === "world") ? 'grey' : "#" + rainbow.colourAt(Math.floor(mapStats[props.country].mapColorStat))
+            const defaultColorCountries = ["world", "canada", "australia", "china"]
+            const defaultColor = (defaultColorCountries.includes(props.country)) ? 'grey' : "#" + rainbow.colourAt(Math.floor(mapStats[props.country].mapColorStat))
             Object.entries(mapStats).forEach(([provinceName, provinceStat]) => {
                 const provinceId = countryIdDictionary[provinceName.toLowerCase()];
                 if (provinceId !== undefined) { // Object is in dictionary (not a boat or small country etc)
