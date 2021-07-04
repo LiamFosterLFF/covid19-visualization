@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useReducer } from 'react';
+import React, { useState, useEffect } from 'react';
 import './App.css';
 import { Grid } from 'semantic-ui-react';
 
@@ -16,36 +16,6 @@ const App = () => {
   const [ dataType, setDataType ] = useState("confirmed")
   const [ countryData, setCountryData ] = useState({original: {}, timeLimited: {} })
   const [ dateLimit, setDateLimit ] = useState(null)
-
-
-  // const initialState = {
-  //   data: {
-  //     data: {},
-  //     isFetching: true
-  //   },
-  //   USData: {
-  //     data: {},
-  //     isFetching: true
-  //   },
-  //   country: "world",
-  //   countryData: {
-  //     original: {}, 
-  //     timeLimited: {}
-  //   },
-  //   dateLimit: null 
-  // }
-
-  // const reducer = async (state, action) => {
-  //   switch (action.type) {
-  //     case 'getSingularDataType':
-        
-  //       return {count: state.count + 1};
-  //     default:
-  //       throw new Error();
-  //   }
-  // }
-
-  // const [state, dispatch] = useReducer(reducer, initialState);
 
   const getSingularDataType = async (dataType) => { // Sets one data type at a time, saves on copy/paste
 
