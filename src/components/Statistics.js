@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Grid } from 'semantic-ui-react';
+import { Grid, Popup } from 'semantic-ui-react';
 
 const Statistics = ({ handleClick, data }) => {
 
@@ -29,6 +29,7 @@ const Statistics = ({ handleClick, data }) => {
             {Object.entries(statistics).map(([statName, statValue], index) => {
                     const statNameCapitalized = statName.charAt(0).toUpperCase() + statName.slice(1);
                     const statValueWithCommas = statValue.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                    const offset = window.screen.width/5/3
                     return (
                         <Grid.Column 
                             key={index}
@@ -39,7 +40,10 @@ const Statistics = ({ handleClick, data }) => {
                             onMouseLeave={() => setHoveredStat("")}
                             style={{"fontSize": (hoveredStat === statName) ? "large": "medium", "cursor": "pointer", "textAlign": "center", "color": textColors[statName]}}
                         >
-                            {`${statNameCapitalized}: ${statValueWithCommas}`}
+                        <Popup content='Click to change daily chart contents' offset={[offset, 0]} basic trigger={
+                            <div>{`${statNameCapitalized}: ${statValueWithCommas}`}</div>
+                        } />
+
                         </Grid.Column>
 
                     )
