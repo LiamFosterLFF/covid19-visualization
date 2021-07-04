@@ -50,9 +50,15 @@ const TotalChart = ({ data, country, setDate }) => {
 
   const capitalizedCountry = country[0].toUpperCase() + country.slice(1)
 
+  const handleSetDate = (e) => {
+    if (e !== null) {
+      setDate(e.activePayload[0].payload.date)
+    }
+  }
+
   return (
       <ResponsiveContainer height="50%">
-        <AreaChart data={lineData} onClick={(e) => setDate(e.activePayload[0].payload.date)} style={{"cursor": "pointer"}}>
+        <AreaChart data={lineData} onClick={(e) => handleSetDate(e)} style={{"cursor": "pointer"}}>
           <CartesianGrid strokeDasharray="3 3" />
           <Tooltip content={<CustomTooltip/>} />
           <Legend verticalAlign="top" height={36}/>

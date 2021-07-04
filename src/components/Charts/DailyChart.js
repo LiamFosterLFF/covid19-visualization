@@ -69,11 +69,17 @@ const DailyChart = ({ data, dataType, country, setDate }) => {
     "deaths": `Daily Deceased (${capitalizedCountry})`,
   }
 
+  const handleSetDate = (e) => {
+    if (e !== null) {
+      setDate(e.activePayload[0].payload.date)
+    }
+  }
+
   
   
   return (
     <ResponsiveContainer height="50%">
-      <BarChart data={chartData} onClick={(e) => setDate(e.activePayload[0].payload.date)} style={{"cursor": "pointer"}}>
+      <BarChart data={chartData} onClick={(e) => handleSetDate(e)} style={{"cursor": "pointer"}}>
         <CartesianGrid strokeDasharray="3 3" />
         <Tooltip content={<CustomTooltip/>} />
         <XAxis dataKey="date" />
