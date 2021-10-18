@@ -155,3 +155,5 @@ export default App;
 
 
 
+// Write a userducer that can replace all of the timeseries/statistics functionality, and can be passed down into all the children more simply (just state + dispatch)
+// Then possibly could even rewrite this to perform the async data functionality (it would have to be set with this so probably you have to do it anyway?)
