@@ -1,15 +1,23 @@
 import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import MainPage from "./components/MainPage";
-import Layout from "./components/MainPage/Layout";
+import countryNameDictionary from "./countryNameDictionary";
 
 const App = () => {
+  const countryNames = Object.values(countryNameDictionary);
+  countryNames.push("world");
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<MainPage />}>
-          <Route path=":country" element={<MainPage />} />
-        </Route>
+        {countryNames.map((countryName, index) => {
+          return (
+            <Route
+              key={index}
+              path={`/${countryName}`}
+              element={<MainPage country={countryName} />}
+            />
+          );
+        })}
       </Routes>
     </BrowserRouter>
   );

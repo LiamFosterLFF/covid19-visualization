@@ -10,11 +10,9 @@ import {
   createCountryTimeSeries,
   filterCountryDataByDate,
 } from "../../utilities";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
-const MainPage = () => {
-  const { pathname } = useLocation();
-  const country = pathname.slice(1);
+const MainPage = ({ country }) => {
   const [data, setData] = useState({ data: {}, isFetching: true });
   const [USData] = useState({ data: {}, isFetching: true });
   const [dataType, setDataType] = useState("confirmed");
