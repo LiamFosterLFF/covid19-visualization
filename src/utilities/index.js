@@ -8,6 +8,9 @@ import { calculateDailyIncrease } from "./calculateDailyIncrease";
 import { formatTicks } from "./formatTicks";
 import { invertDictionary } from "./invertDictionary";
 import { getProvinceColors } from "./getProvinceColors";
+import { getStatisticsFromData } from "./getStatisticsFromData";
+import { capitalize } from "./capitalize";
+import { addCommasToNumber } from "./addCommasToNumber";
 import { getLineData } from "./getLineData";
 export {
   calculateMapStats,
@@ -18,6 +21,9 @@ export {
   createGraphArrays,
   calculateDailyIncrease,
   getLineData,
+  addCommasToNumber,
+  capitalize,
+  getStatisticsFromData,
   getProvinceColors,
   formatTicks,
 };
