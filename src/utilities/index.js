@@ -10,7 +10,10 @@ import { invertDictionary } from "./invertDictionary";
 import { getProvinceColors } from "./getProvinceColors";
 import { getStatisticsFromData } from "./getStatisticsFromData";
 import { capitalize } from "./capitalize";
+import { formatCountryNameCamelCase } from "./formatCountryNameCamelCase";
 import { addCommasToNumber } from "./addCommasToNumber";
+import { filterCountryDataByDate } from "./filterCountryDataByDate";
+import { createCountryTimeSeries } from "./createCountryTimeSeries";
 import { getLineData } from "./getLineData";
 export {
   calculateMapStats,
@@ -21,9 +24,13 @@ export {
   createGraphArrays,
   calculateDailyIncrease,
   getLineData,
+  invertDictionary,
   addCommasToNumber,
   capitalize,
+  formatCountryNameCamelCase,
   getStatisticsFromData,
   getProvinceColors,
   formatTicks,
+  filterCountryDataByDate,
+  createCountryTimeSeries,
 };

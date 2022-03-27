@@ -1,5 +1,8 @@
 import React, { useState, useEffect, useRef } from "react";
-import componentJsonDictionary from "../../topojsons/all-jsons.js";
+import {
+  componentJsonDictionary,
+  countryToIDDictionary,
+} from "../../topojsons/";
 
 import MapStyling from "./MapStyling";
 import createMapTooltip from "./MapTooltip.js";
@@ -20,7 +23,9 @@ const Map = (props) => {
     default: "",
     provinces: "",
   });
-  const [map, setMap] = useState(componentJsonDictionary["worldLowRes"]);
+
+  const countryId = countryToIDDictionary[props.country];
+  const [map, setMap] = useState(componentJsonDictionary[countryId]);
 
   const [tooltipOpen, setTooltipOpen] = useState(false);
   const [tooltipText, setToolTipText] = useState("");
