@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import MainPage from "./components/MainPage";
 import countryNameDictionary from "./countryNameDictionary";
 
@@ -18,6 +18,7 @@ const App = () => {
             />
           );
         })}
+        <Route path="*" element={<Navigate to="/world" replace />} />
       </Routes>
     </BrowserRouter>
   );
