@@ -1,6 +1,6 @@
 import { csv } from "d3";
 
-const getProcessedUSData = async () => {
+export const getProcessedUSData = async () => {
   const getUSData = async () => {
     const rawData = await csv(
       `https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_US.csv`
@@ -20,7 +20,7 @@ const getProcessedUSData = async () => {
         localData.forEach((dataPoint, index) => {
           const newTotal =
             Number.parseInt(processedData[stateName].confirmed[index][1]) +
-            Number.parseInt(dataPoint[1] as string);
+            Number.parseInt(dataPoint[1]);
           processedData[stateName].confirmed[index][1] = newTotal;
         });
       } else {
@@ -35,5 +35,3 @@ const getProcessedUSData = async () => {
   });
   return processedData;
 };
-
-export default getProcessedUSData;

@@ -40,6 +40,8 @@ const Map = (props) => {
   const [tooltipText, setToolTipText] = useState("");
   const tooltipRef = useRef();
 
+  console.log(capitalizeCountry(props.country));
+
   useEffect(() => {
     if (Object.entries(props.data).length > 0) {
       if (props.country === "world") {

@@ -1,4 +1,4 @@
-const preprocessProvincialData = (countryData) => {
+export const preprocessProvincialData = (countryData) => {
   // Three countries (aus, can, china) are special cases that do not have nationwide statistics - create these
   const specialCaseCountries = ["Australia", "China", "Canada"];
   specialCaseCountries.forEach((country) => {
@@ -27,5 +27,3 @@ const preprocessProvincialData = (countryData) => {
   });
   return countryData;
 };
-
-export default preprocessProvincialData;

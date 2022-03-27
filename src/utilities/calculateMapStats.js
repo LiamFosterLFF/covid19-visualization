@@ -1,4 +1,4 @@
-const calculateMapStats = (countryData) => {
+export const calculateMapStats = (countryData) => {
   const provinceStats = {};
   Object.entries(countryData).forEach(([provinceName, provinceData]) => {
     if (provinceData.confirmed && provinceData.confirmed.length > 0) {
@@ -23,5 +23,3 @@ const calculateMapStats = (countryData) => {
   });
   return provinceStats;
 };
-
-export default calculateMapStats;
