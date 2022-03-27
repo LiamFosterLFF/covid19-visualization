@@ -11,6 +11,8 @@ import { getProvinceColors } from "./getProvinceColors";
 import { getStatisticsFromData } from "./getStatisticsFromData";
 import { capitalize } from "./capitalize";
 import { addCommasToNumber } from "./addCommasToNumber";
+import { filterCountryDataByDate } from "./filterCountryDataByDate";
+import { createCountryTimeSeries } from "./createCountryTimeSeries";
 import { getLineData } from "./getLineData";
 export {
   calculateMapStats,
@@ -26,4 +28,6 @@ export {
   getStatisticsFromData,
   getProvinceColors,
   formatTicks,
+  filterCountryDataByDate,
+  createCountryTimeSeries,
 };
