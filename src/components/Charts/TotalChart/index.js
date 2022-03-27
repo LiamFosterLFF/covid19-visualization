@@ -9,7 +9,11 @@ import {
   Tooltip,
   ResponsiveContainer,
 } from "recharts";
-import { formatTicks } from "../../../utilities";
+import {
+  formatTicks,
+  capitalizeCountry,
+  getLineData,
+} from "../../../utilities";
 import TotalChartTooltip from "./TotalChartTooltip";
 
 const TotalChart = ({ data, country, setDate }) => {
@@ -17,20 +21,11 @@ const TotalChart = ({ data, country, setDate }) => {
   const [lineData, setLineData] = useState([]);
   useEffect(() => {
     if (Object.keys(data).length !== 0) {
-      const ld = [];
-      for (let i = 0; i < data["confirmed"].length; i++) {
-        ld.push({
-          date: data["confirmed"][i].date,
-          confirmed: data["confirmed"][i].total,
-          recovered: data["recovered"][i].total,
-          deaths: data["deaths"][i].total,
-        });
-      }
-      setLineData(ld);
+      setLineData(getLineData(data));
     }
   }, [data]);
 
-  const capitalizedCountry = country[0].toUpperCase() + country.slice(1);
+  const capitalizedCountry = capitalizeCountry(country);
 
   const handleSetDate = (e) => {
     if (e !== null) {

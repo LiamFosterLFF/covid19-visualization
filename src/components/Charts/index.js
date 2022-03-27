@@ -13,8 +13,6 @@ const Charts = ({ data, dataType, country, date, setDate, resetDate }) => {
     setGraphArrays(createGraphArrays(data));
   }, [data]);
 
-  console.log(getFormattedDate());
-
   return (
     <Grid.Column className="charts" width={8} style={{ maxHeight: "50vh" }}>
       <Header as="h2" textAlign="center">

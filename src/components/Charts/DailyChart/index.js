@@ -9,7 +9,17 @@ import {
 import XAxis from "recharts/lib/cartesian/XAxis";
 import YAxis from "recharts/lib/cartesian/YAxis";
 import DailyChartTooltip from "./DailyChartTooltip";
-import { calculateDailyIncrease, formatTicks } from "../../../utilities";
+import {
+  calculateDailyIncrease,
+  formatTicks,
+  capitalizeCountry,
+} from "../../../utilities";
+
+const yAxisDict = {
+  confirmed: `New Confirmed Cases`,
+  recovered: `Daily Recovered`,
+  deaths: `Daily Deceased`,
+};
 
 const DailyChart = ({ data, dataType, country, setDate }) => {
   const [chartData, setChartData] = useState([]);
@@ -20,13 +30,7 @@ const DailyChart = ({ data, dataType, country, setDate }) => {
     }
   }, [data, dataType]);
 
-  const capitalizedCountry = country[0].toUpperCase() + country.slice(1);
-
-  const yAxisDict = {
-    confirmed: `New Confirmed Cases (${capitalizedCountry})`,
-    recovered: `Daily Recovered (${capitalizedCountry})`,
-    deaths: `Daily Deceased (${capitalizedCountry})`,
-  };
+  const capitalizedCountry = capitalizeCountry(country);
 
   const handleSetDate = (e) => {
     if (e !== null) {
@@ -47,7 +51,7 @@ const DailyChart = ({ data, dataType, country, setDate }) => {
         <YAxis
           tickFormatter={(tick) => formatTicks(tick)}
           label={{
-            value: yAxisDict[dataType],
+            value: `${yAxisDict[dataType]} (${capitalizedCountry})`,
             offset: 15,
             angle: -90,
             position: "insideBottomLeft",
