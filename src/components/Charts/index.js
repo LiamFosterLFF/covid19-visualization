@@ -4,6 +4,7 @@ import TotalChart from "./TotalChart";
 import DailyChart from "./DailyChart";
 
 import { Grid, Button, Header } from "semantic-ui-react";
+import { getFormattedDate } from "../../utitlities";
 
 const Charts = ({ data, dataType, country, date, setDate, resetDate }) => {
   const [graphArrays, setGraphArrays] = useState({});
@@ -32,14 +33,6 @@ const Charts = ({ data, dataType, country, date, setDate, resetDate }) => {
   useEffect(() => {
     setGraphArrays(createGraphArrays(data));
   }, [data]);
-
-  const getFormattedDate = () => {
-    const presentDateObj = new Date();
-    const day = presentDateObj.getDate();
-    const month = presentDateObj.getMonth() + 1;
-    const year = presentDateObj.getFullYear().toString().slice(2);
-    return `${month}/${day}/${year}`;
-  };
 
   return (
     <Grid.Column className="charts" width={8} style={{ maxHeight: "50vh" }}>
