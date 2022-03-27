@@ -18,7 +18,7 @@ const App = () => {
             />
           );
         })}
-        <Route path="*" element={<Navigate to="/world" replace />} />
+        {/* <Route path="*" element={<Navigate to="/world" replace />} /> */}
       </Routes>
     </BrowserRouter>
   );

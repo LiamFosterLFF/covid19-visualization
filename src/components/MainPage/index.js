@@ -65,7 +65,7 @@ const MainPage = ({ country }) => {
 
   const navigate = useNavigate();
   const handleCountryClick = (country) => {
-    navigate(country);
+    navigate(`/${country}`, { replace: true });
   };
 
   return (

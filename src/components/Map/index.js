@@ -15,6 +15,7 @@ import {
 } from "../../utilities";
 
 const Map = (props) => {
+  console.log(props.country);
   const [mapStats, setMapStats] = useState({});
   const [provinceColors, setProvinceColors] = useState({
     default: "",
