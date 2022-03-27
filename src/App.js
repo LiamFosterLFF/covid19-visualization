@@ -2,6 +2,7 @@ import React from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import MainPage from "./components/MainPage";
 import countryNameDictionary from "./countryNameDictionary";
+import { formatCountryNameCamelCase } from "./utilities";
 
 const App = () => {
   const countryNames = Object.values(countryNameDictionary);
@@ -13,12 +14,12 @@ const App = () => {
           return (
             <Route
               key={index}
-              path={`/${countryName}`}
+              path={`/${formatCountryNameCamelCase(countryName)}`}
               element={<MainPage country={countryName} />}
             />
           );
         })}
-        {/* <Route path="*" element={<Navigate to="/world" replace />} /> */}
+        <Route path="*" element={<Navigate to="/world" replace />} />
       </Routes>
     </BrowserRouter>
   );

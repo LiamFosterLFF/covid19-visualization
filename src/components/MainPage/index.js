@@ -9,6 +9,7 @@ import { getAllDataTypes, getCountryData } from "../../requests";
 import {
   createCountryTimeSeries,
   filterCountryDataByDate,
+  formatCountryNameCamelCase,
 } from "../../utilities";
 import { useNavigate } from "react-router-dom";
 
@@ -65,7 +66,7 @@ const MainPage = ({ country }) => {
 
   const navigate = useNavigate();
   const handleCountryClick = (country) => {
-    navigate(`/${country}`, { replace: true });
+    navigate(`/${formatCountryNameCamelCase(country)}`, { replace: true });
   };
 
   return (

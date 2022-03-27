@@ -1,5 +1,8 @@
 import React, { useState, useEffect, useRef } from "react";
-import componentJsonDictionary from "../../topojsons/all-jsons.js";
+import {
+  componentJsonDictionary,
+  countryToIDDictionary,
+} from "../../topojsons/";
 
 import MapStyling from "./MapStyling";
 import createMapTooltip from "./MapTooltip.js";
@@ -15,13 +18,14 @@ import {
 } from "../../utilities";
 
 const Map = (props) => {
-  console.log(props.country);
   const [mapStats, setMapStats] = useState({});
   const [provinceColors, setProvinceColors] = useState({
     default: "",
     provinces: "",
   });
-  const [map, setMap] = useState(componentJsonDictionary["worldLowRes"]);
+
+  const countryId = countryToIDDictionary[props.country];
+  const [map, setMap] = useState(componentJsonDictionary[countryId]);
 
   const [tooltipOpen, setTooltipOpen] = useState(false);
   const [tooltipText, setToolTipText] = useState("");
