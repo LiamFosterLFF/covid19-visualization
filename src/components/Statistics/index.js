@@ -4,7 +4,7 @@ import {
   getStatisticsFromData,
   capitalize,
   addCommasToNumber,
-} from "../utilities";
+} from "../../utilities";
 const textColors = {
   confirmed: "#8884d8",
   recovered: "#54ed40",
